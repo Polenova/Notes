@@ -17,6 +17,8 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -47,7 +49,8 @@ public class ListNoteActivity extends AppCompatActivity {
         ArrayList<String> textList = new ArrayList<>();
         BufferedReader bufferedReaderNameNote = null;
         try {
-            bufferedReaderNameNote = new BufferedReader(new InputStreamReader(openFileInput("notes")));
+            File file = FileNotes.getTextFile(this, false);
+            bufferedReaderNameNote = new BufferedReader(new FileReader(file));
             String txt = bufferedReaderNameNote.readLine();
             while (txt != null) {
                 textList.add(txt);
@@ -58,9 +61,10 @@ public class ListNoteActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        for (int i = 0, length = textList.size(); i < length; i += 2) {
-            notes.add(new Note(textList.get(i), textList.get(i + 1), null));
+        for (int i = 0, length = textList.size(); i < length; i += 3) {
+            notes.add(new Note(textList.get(i), textList.get(i + 1), textList.get(i + 2)));
         }
+
         return notes;
     }
 

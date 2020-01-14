@@ -17,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -82,11 +83,16 @@ public class NewNoteActivity extends AppCompatActivity {
         Note noteNewInfo = new Note(textName + "\n", textBody + "\n", textDate + "\n");
         BufferedWriter bufferedWriter = null;
         try {
-            FileOutputStream fileOutputStreamLogin = openFileOutput(textInfoNote, MODE_PRIVATE);
+            /*FileOutputStream fileOutputStreamLogin = openFileOutput(textInfoNote, MODE_PRIVATE);
             OutputStreamWriter outputStreamWriterLogin = new OutputStreamWriter(fileOutputStreamLogin);
             bufferedWriter = new BufferedWriter(outputStreamWriterLogin);
             bufferedWriter.write(textName + "\n" + textBody + "\n" + textDate);
-            bufferedWriter.close();
+            bufferedWriter.close();*/
+            ArrayList<String> textAddList = new ArrayList<>();
+            textAddList.add(textName);
+            textAddList.add(textBody);
+            textAddList.add(textDate);
+            FileNotes.appendTextFile(this, textAddList);
         } catch (IOException e) {
             e.printStackTrace();
         }

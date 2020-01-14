@@ -19,6 +19,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -39,17 +40,21 @@ public class MainActivity extends AppCompatActivity {
         TextView textView = findViewById(R.id.textView);
         BufferedReader bufferedReaderNameNote = null;
         try {
-            bufferedReaderNameNote = new BufferedReader(new InputStreamReader(openFileInput(fileNote)));
+            File file = FileNotes.getTextFile(this, false);
+            bufferedReaderNameNote = new BufferedReader(new FileReader(file));
             String txt = bufferedReaderNameNote.readLine();
-            while (txt != null){
+            while (txt != null) {
                 textList.add(txt);
                 txt = bufferedReaderNameNote.readLine();
             }
             bufferedReaderNameNote.close();
-            textView.setText(textList.toString());
+            textView.setText(txt.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
+
 
 
 

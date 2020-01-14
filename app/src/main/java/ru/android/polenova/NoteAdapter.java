@@ -33,7 +33,7 @@ public class NoteAdapter extends BaseAdapter {
 
     void removeItem(int position) {
         notesList.remove(position);
-        /*ArrayList<String> notes = new ArrayList<>();
+        ArrayList<String> notes = new ArrayList<>();
         for (Note cnt : notesList) {
             notes.add(cnt.getTextNameNote());
             notes.add(cnt.getTextBodyNote());
@@ -45,7 +45,7 @@ public class NoteAdapter extends BaseAdapter {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }
         notifyDataSetChanged();
     }
 
@@ -78,7 +78,6 @@ public class NoteAdapter extends BaseAdapter {
         TextView textViewName = view.findViewById(R.id.textViewName);
         TextView textViewBody = view.findViewById(R.id.textViewBody);
         TextView textViewDate = view.findViewById(R.id.textViewDate);
-        //CardView cardView = view.findViewById(R.id.CardVeiw);
         textViewName.setText(notePosition.getTextNameNote());
         textViewBody.setText(notePosition.getTextBodyNote());
         textViewDate.setText(notePosition.getTextDateNote());
@@ -86,7 +85,6 @@ public class NoteAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Toast.makeText(myContext, getNote(position).getTextBodyNote(), Toast.LENGTH_SHORT).show();
-                removeItem(position);
             }
         });
         view.setOnLongClickListener(new View.OnLongClickListener() {
