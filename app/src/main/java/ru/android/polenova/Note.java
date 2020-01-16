@@ -35,4 +35,13 @@ public class Note {
     public void setTextDateNote(String textDateNote) {
         this.textDateNote = textDateNote;
     }
+
+    @Override
+    public String toString() {
+        return "Note{" +
+                "textNameNote='" + textNameNote + '\'' +
+                ", textBodyNote='" + textBodyNote + '\'' +
+                ", textDateNote='" + textDateNote + '\'' +
+                '}';
+    }
 }

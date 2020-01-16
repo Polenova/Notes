@@ -29,7 +29,6 @@ public class NewNoteActivity extends AppCompatActivity {
     private String textName;
     private String textBody;
     private String textDate;
-    private String textInfoNote = "notes";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,23 +79,21 @@ public class NewNoteActivity extends AppCompatActivity {
         textName = editTextName.getText().toString();
         textBody = editTextBody.getText().toString();
         textDate = editTextDate.getText().toString();
-        Note noteNewInfo = new Note(textName + "\n", textBody + "\n", textDate + "\n");
-        BufferedWriter bufferedWriter = null;
+        ArrayList<Note> notes = new ArrayList<>();
+        Note noteNewInfo = new Note(textName, textBody, textDate);
+        notes.add(noteNewInfo);
+        //adapter.notifyDataSetChanged();
         try {
-            /*FileOutputStream fileOutputStreamLogin = openFileOutput(textInfoNote, MODE_PRIVATE);
-            OutputStreamWriter outputStreamWriterLogin = new OutputStreamWriter(fileOutputStreamLogin);
-            bufferedWriter = new BufferedWriter(outputStreamWriterLogin);
-            bufferedWriter.write(textName + "\n" + textBody + "\n" + textDate);
-            bufferedWriter.close();*/
-            ArrayList<String> textAddList = new ArrayList<>();
-            textAddList.add(textName);
-            textAddList.add(textBody);
-            textAddList.add(textDate);
-            FileNotes.appendTextFile(this, textAddList);
-        } catch (IOException e) {
+            boolean result = FileNotes.exportToJSON(this, notes);
+            if (result) {
+                Toast.makeText(this, "готово", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "ошибка сохранения", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        Toast.makeText(this, "готово", Toast.LENGTH_SHORT).show();
+
     }
 }
 

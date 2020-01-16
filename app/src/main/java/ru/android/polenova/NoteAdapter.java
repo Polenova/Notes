@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 
+import org.json.JSONException;
+
 import java.io.EOFException;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,16 +35,11 @@ public class NoteAdapter extends BaseAdapter {
 
     void removeItem(int position) {
         notesList.remove(position);
-        ArrayList<String> notes = new ArrayList<>();
-        for (Note cnt : notesList) {
-            notes.add(cnt.getTextNameNote());
-            notes.add(cnt.getTextBodyNote());
-            notes.add(cnt.getTextDateNote());
-        }
+        ArrayList<Note> notes = new ArrayList<>();
+            //notes.add(null);
+
         try {
-            FileNotes.rewriteTextFile(myContext, notes);
-        } catch (EOFException e) {
-            e.printStackTrace();
+            FileNotes.exportToJSON(myContext, notes);
         } catch (Exception e) {
             e.printStackTrace();
         }

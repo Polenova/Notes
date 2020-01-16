@@ -22,6 +22,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.EmptyStackException;
 import java.util.List;
 
 public class ListNoteActivity extends AppCompatActivity {
@@ -40,13 +41,35 @@ public class ListNoteActivity extends AppCompatActivity {
         this.setTitle("заметки");
         initView();
         getNotes();
-        adapter = new NoteAdapter(this, notes);
+        /*adapter = new NoteAdapter(this, notes);
         ListView listView = findViewById(R.id.list);
-        listView.setAdapter(adapter);
+        listView.setAdapter(adapter);*/
     }
 
     private List<Note> getNotes() {
-        ArrayList<String> textList = new ArrayList<>();
+        List<Note> notesList = new ArrayList<>();
+        try {
+            notesList = FileNotes.importFromJSON(this);
+        } catch (EmptyStackException e) {
+            e.getMessage();
+        }
+        if (notesList != null) {
+            for (Note note: notesList) {
+                notes.add(new Note(note.getTextNameNote(), note.getTextBodyNote(), note.getTextDateNote()));
+            }
+            adapter = new NoteAdapter(this, notes);
+            ListView listView = findViewById(R.id.list);
+            listView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+            Toast.makeText(this, "Данные добавлены", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Не удалось открыть данные", Toast.LENGTH_LONG).show();
+        }
+        return null;
+    }
+
+
+        /*ArrayList<String> textList = new ArrayList<>();
         BufferedReader bufferedReaderNameNote = null;
         try {
             File file = FileNotes.getTextFile(this, false);
@@ -66,7 +89,7 @@ public class ListNoteActivity extends AppCompatActivity {
         }
 
         return notes;
-    }
+    }*/
 
 
     private void initView() {
@@ -82,7 +105,6 @@ public class ListNoteActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu, this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }

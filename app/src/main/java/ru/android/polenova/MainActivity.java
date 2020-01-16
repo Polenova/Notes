@@ -24,12 +24,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayList<String> textList = new ArrayList<>();
-    private String fileNote = "notes";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
         Button btn = (findViewById(R.id.button2));
         Button btn2 = (findViewById(R.id.buttonNote));
         TextView textView = findViewById(R.id.textView);
-        BufferedReader bufferedReaderNameNote = null;
+
+        /*BufferedReader bufferedReaderNameNote = null;
         try {
             File file = FileNotes.getTextFile(this, false);
             bufferedReaderNameNote = new BufferedReader(new FileReader(file));
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             textView.setText(txt.toString());
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
 
 
