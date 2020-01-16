@@ -41,22 +41,15 @@ public class ListNoteActivity extends AppCompatActivity {
         this.setTitle("заметки");
         initView();
         getNotes();
-        /*adapter = new NoteAdapter(this, notes);
-        ListView listView = findViewById(R.id.list);
-        listView.setAdapter(adapter);*/
     }
 
     private List<Note> getNotes() {
-        List<Note> notesList = new ArrayList<>();
         try {
-            notesList = FileNotes.importFromJSON(this);
+            notes = FileNotes.importFromJSON(this);
         } catch (EmptyStackException e) {
             e.getMessage();
         }
-        if (notesList != null) {
-            for (Note note: notesList) {
-                notes.add(new Note(note.getTextNameNote(), note.getTextBodyNote(), note.getTextDateNote()));
-            }
+        if (notes != null) {
             adapter = new NoteAdapter(this, notes);
             ListView listView = findViewById(R.id.list);
             listView.setAdapter(adapter);
@@ -67,30 +60,6 @@ public class ListNoteActivity extends AppCompatActivity {
         }
         return null;
     }
-
-
-        /*ArrayList<String> textList = new ArrayList<>();
-        BufferedReader bufferedReaderNameNote = null;
-        try {
-            File file = FileNotes.getTextFile(this, false);
-            bufferedReaderNameNote = new BufferedReader(new FileReader(file));
-            String txt = bufferedReaderNameNote.readLine();
-            while (txt != null) {
-                textList.add(txt);
-                txt = bufferedReaderNameNote.readLine();
-            }
-            bufferedReaderNameNote.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        for (int i = 0, length = textList.size(); i < length; i += 3) {
-            notes.add(new Note(textList.get(i), textList.get(i + 1), textList.get(i + 2)));
-        }
-
-        return notes;
-    }*/
-
 
     private void initView() {
         FloatingActionButton buttonAddNewNote = findViewById(R.id.floatingActionButton);

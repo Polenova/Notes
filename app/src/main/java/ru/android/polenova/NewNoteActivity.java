@@ -9,16 +9,9 @@ import android.widget.ImageButton;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class NewNoteActivity extends AppCompatActivity {
@@ -49,7 +42,6 @@ public class NewNoteActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu, this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_new_note, menu);
         return true;
     }
