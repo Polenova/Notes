@@ -3,10 +3,6 @@ package ru.android.polenova;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -18,7 +14,7 @@ import com.google.gson.Gson;
 import static android.content.Context.MODE_PRIVATE;
 
 
-public class FileNotes {
+public class FileNotes implements NoteRepository {
 
     private static final String FILE_NAME_NOTES = "notes";
     private static Gson gson = new Gson();
@@ -60,72 +56,24 @@ public class FileNotes {
     private static SharedPreferences getPreferences(Context context) {
         return context.getSharedPreferences(FILE_NAME_NOTES, MODE_PRIVATE);
     }
+
+    @Override
+    public Note getNoteById(String id) {
+        return null;
+    }
+
+    @Override
+    public List<Note> getNotes() {
+        return null;
+    }
+
+    @Override
+    public void saveNote(Note note) {
+
+    }
+
+    @Override
+    public void deleteById(String id) {
+
+    }
 }
-
-
-    /*private static final String FILE_NAME = "notes.json";
-    private  static Gson gson = new Gson();
-    private static DataItem dataItem = new DataItem();
-
-    static boolean exportToJSON(Context context, List<Note> notesList) {
-        dataItem.setNotes(notesList);
-        String jsonString = gson.toJson(dataItem);
-        FileOutputStream fileOutputStream = null;
-        try {
-            fileOutputStream = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
-            fileOutputStream.write(jsonString.getBytes());
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (fileOutputStream != null) {
-                try {
-                    fileOutputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return true;
-    }
-
-    static List<Note> importFromJSON(Context context) {
-        InputStreamReader streamReader = null;
-        FileInputStream fileInputStream = null;
-        try {
-            fileInputStream = context.openFileInput(FILE_NAME);
-            streamReader = new InputStreamReader(fileInputStream);
-            dataItem = gson.fromJson(streamReader, DataItem.class);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } finally {
-            if (streamReader != null) {
-                try {
-                    streamReader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (fileInputStream != null) {
-                try {
-                    fileInputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return dataItem.getNotes();
-    }
-
-    private static class DataItem {
-        private List<Note> notes;
-
-        List<Note> getNotes() {
-            return notes;
-        }
-        void setNotes(List<Note> notes) {
-            this.notes = notes;
-        }
-    }
-}*/
-
-
