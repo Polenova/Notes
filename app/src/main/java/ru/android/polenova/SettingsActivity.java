@@ -3,8 +3,10 @@ package ru.android.polenova;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -12,18 +14,17 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.util.EmptyStackException;
 
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private EditText editPin;
-    private ImageButton btnEys;
-    private Button btnSavePin;
-    private String filePassword = "File_Password";
+    private EditText editNewPin;
+    private EditText editOldPin;
+    private ImageButton btnEysNewPin;
+    private ImageButton btnEysOldPin;
+    private String stringNewPassword;
+    private String stringOldPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,60 +47,88 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        editPin = findViewById(R.id.editTextPin);
-        btnEys = findViewById(R.id.buttonEye);
-        btnSavePin = findViewById(R.id.buttonSavePin);
+        editNewPin = findViewById(R.id.editTextNewPin);
+        editOldPin = findViewById(R.id.editTextOldPin);
+        btnEysNewPin = findViewById(R.id.buttonEyeNewPin);
+        btnEysOldPin = findViewById(R.id.buttonEyeOldPin);
+        Button btnSavePin = findViewById(R.id.buttonSavePin);
         btnSavePin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 savePinFile();
             }
         });
-        btnEys.setOnClickListener(new View.OnClickListener() {
+        btnEysNewPin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setVisibleText();
+                setVisibleTextNewPin();
+            }
+        });
+        btnEysOldPin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setVisibleTextOldPin();
             }
         });
     }
 
-    private void setVisibleText() {
-        int typeNow = editPin.getInputType();
+    private void setVisibleTextOldPin() {
+        int typeNow = editOldPin.getInputType();
         if (typeNow != (InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_CLASS_NUMBER)) {
-            btnEys.setImageResource(R.drawable.ic_remove_red_eye_black_24dp);
-            editPin.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_CLASS_NUMBER);
-            editPin.setSelection(editPin.length());
+            btnEysOldPin.setImageResource(R.drawable.ic_remove_red_eye_black_24dp);
+            editOldPin.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_CLASS_NUMBER);
+            editOldPin.setSelection(editNewPin.length());
         } else {
-            btnEys.setImageResource(R.drawable.ic_visibility_off_black_24dp);
-            editPin.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
-            editPin.setSelection(editPin.length());
+            btnEysOldPin.setImageResource(R.drawable.ic_visibility_off_black_24dp);
+            editOldPin.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+            editOldPin.setSelection(editNewPin.length());
+        }
+    }
+
+    private void setVisibleTextNewPin() {
+        int typeNow = editNewPin.getInputType();
+        if (typeNow != (InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_CLASS_NUMBER)) {
+            btnEysNewPin.setImageResource(R.drawable.ic_remove_red_eye_black_24dp);
+            editNewPin.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_CLASS_NUMBER);
+            editNewPin.setSelection(editNewPin.length());
+        } else {
+            btnEysNewPin.setImageResource(R.drawable.ic_visibility_off_black_24dp);
+            editNewPin.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+            editNewPin.setSelection(editNewPin.length());
         }
     }
 
     private void savePinFile() {
-        String stringPassword = editPin.getText().toString();
-        int count = stringPassword.length();
+        stringNewPassword = editNewPin.getText().toString();
+        int count = stringNewPassword.length();
         boolean charBoolean = false;
-        char[] chars = stringPassword.toCharArray();
-        for (char element: chars) {
-            charBoolean = Character.isLetter(element);        }
+        char[] chars = stringNewPassword.toCharArray();
+        for (char element : chars) {
+            charBoolean = Character.isLetter(element);
+        }
         if (count < 4) {
             Toast.makeText(this, "введите 4 цифры", Toast.LENGTH_SHORT).show();
         } else {
             if (charBoolean == true) {
                 Toast.makeText(this, "введите цифры", Toast.LENGTH_SHORT).show();
             } else {
-                BufferedWriter bufferedWriter = null;
                 try {
-                    FileOutputStream fileOutputStreamLogin = openFileOutput(filePassword, MODE_PRIVATE);
-                    OutputStreamWriter outputStreamWriterLogin = new OutputStreamWriter(fileOutputStreamLogin);
-                    bufferedWriter = new BufferedWriter(outputStreamWriterLogin);
-                    bufferedWriter.write(stringPassword);
-                    bufferedWriter.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    stringOldPassword = FilePin.importPIN(this);
+                } catch (EmptyStackException e) {
+                    e.getMessage();
                 }
-                Toast.makeText(this, "пароль сохранен", Toast.LENGTH_SHORT).show();
+                if (stringOldPassword != null) {
+                    String stringInputOldPassword = editOldPin.getText().toString();
+                    if ("".equals(stringInputOldPassword)) {
+                        Toast.makeText(this, "введите текущий PIN", Toast.LENGTH_SHORT).show();
+                    } else if (!stringInputOldPassword.equals(stringOldPassword)) {
+                        Toast.makeText(this, "не верно введен PIN", Toast.LENGTH_SHORT).show();
+                    } else {
+                        FilePin.exportPIN(this, stringNewPassword);
+                    }
+                } else {
+                    FilePin.exportPIN(this, stringNewPassword);
+                }
             }
         }
     }
