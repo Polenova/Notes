@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
-public class FilePin {
+public class FilePin implements Keystore{
 
     private static final String FILE_PASSWORD = "password_notes";
 
@@ -59,5 +59,20 @@ public class FilePin {
             }
         }
         return null;
+    }
+
+    @Override
+    public boolean hasPin() {
+        return false;
+    }
+
+    @Override
+    public boolean checkPin(String pin) {
+        return false;
+    }
+
+    @Override
+    public void saveNew(String pin) {
+
     }
 }
