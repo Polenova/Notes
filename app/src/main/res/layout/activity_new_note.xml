@@ -7,13 +7,17 @@
     tools:context=".NewNoteActivity">
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <EditText
                 android:id="@+id/editNameNote"
@@ -28,14 +32,17 @@
             <MultiAutoCompleteTextView
                 android:id="@+id/multiTextNote"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/text_note" />
+                android:layout_height="400dp"
+                android:hapticFeedbackEnabled="false"
+                android:hint="@string/text_note"
+                android:textAlignment="center"
+                android:textStyle="italic" />
 
             <CheckBox
                 android:id="@+id/checkBoxSelectDeadLine"
-                android:layout_gravity="right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="right"
                 android:text="@string/select_date" />
 
             <LinearLayout
@@ -45,7 +52,7 @@
 
                 <ImageButton
                     android:id="@+id/imageButtonCalendar"
-                    android:layout_width="66dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="left"
                     app:srcCompat="@drawable/ic_insert_invitation_black_24dp" />
@@ -54,22 +61,13 @@
                 <EditText
                     android:id="@+id/editDeadLine"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center|fill_horizontal"
                     android:hint="@string/date_note"
-                    android:inputType="date"/>
+                    android:inputType="date" />
 
             </LinearLayout>
 
-            <CalendarView
-                android:id="@+id/calendarView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <Button
-                android:id="@+id/buttonOK"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/ok" />
         </LinearLayout>
     </ScrollView>
 

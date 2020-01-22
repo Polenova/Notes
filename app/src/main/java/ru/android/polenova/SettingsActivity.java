@@ -65,9 +65,9 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void setVisibleText() {
         int typeNow = editPin.getInputType();
-        if (typeNow != InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) {
+        if (typeNow != (InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_CLASS_NUMBER)) {
             btnEys.setImageResource(R.drawable.ic_remove_red_eye_black_24dp);
-            editPin.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            editPin.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_CLASS_NUMBER);
             editPin.setSelection(editPin.length());
         } else {
             btnEys.setImageResource(R.drawable.ic_visibility_off_black_24dp);

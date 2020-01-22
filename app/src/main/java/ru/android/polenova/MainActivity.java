@@ -39,25 +39,6 @@ public class MainActivity extends AppCompatActivity {
         Button btn2 = (findViewById(R.id.buttonNote));
         TextView textView = findViewById(R.id.textView);
 
-        /*BufferedReader bufferedReaderNameNote = null;
-        try {
-            File file = FileNotes.getTextFile(this, false);
-            bufferedReaderNameNote = new BufferedReader(new FileReader(file));
-            String txt = bufferedReaderNameNote.readLine();
-            while (txt != null) {
-                textList.add(txt);
-                txt = bufferedReaderNameNote.readLine();
-            }
-            bufferedReaderNameNote.close();
-            textView.setText(txt.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
-
-
-
-
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
