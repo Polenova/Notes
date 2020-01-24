@@ -25,6 +25,8 @@ public class SettingsActivity extends AppCompatActivity {
     private ImageButton btnEysOldPin;
     private String stringNewPassword;
     private String stringOldPassword;
+    private Keystore keystore = App.getKeystore();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,24 +114,40 @@ public class SettingsActivity extends AppCompatActivity {
             if (charBoolean == true) {
                 Toast.makeText(this, "введите цифры", Toast.LENGTH_SHORT).show();
             } else {
-                try {
-                    stringOldPassword = FilePin.importPIN(this);
-                } catch (EmptyStackException e) {
-                    e.getMessage();
-                }
-                if (stringOldPassword != null) {
-                    String stringInputOldPassword = editOldPin.getText().toString();
+                if (keystore.checkPin(stringNewPassword)) {
+                    /*String stringInputOldPassword = editOldPin.getText().toString();
                     if ("".equals(stringInputOldPassword)) {
                         Toast.makeText(this, "введите текущий PIN", Toast.LENGTH_SHORT).show();
                     } else if (!stringInputOldPassword.equals(stringOldPassword)) {
                         Toast.makeText(this, "не верно введен PIN", Toast.LENGTH_SHORT).show();
-                    } else {
-                        FilePin.exportPIN(this, stringNewPassword);
-                    }
-                } else {
-                    FilePin.exportPIN(this, stringNewPassword);
+                    } else {*/
+                        keystore.saveNew(stringNewPassword);
+
                 }
             }
         }
     }
 }
+
+/*if (charBoolean == true) {
+        Toast.makeText(this, "введите цифры", Toast.LENGTH_SHORT).show();
+        } else {
+        try {
+        stringOldPassword = FilePin.importPIN(this);
+        } catch (EmptyStackException e) {
+        e.getMessage();
+        }
+        if (stringOldPassword != null) {
+        String stringInputOldPassword = editOldPin.getText().toString();
+        if ("".equals(stringInputOldPassword)) {
+        Toast.makeText(this, "введите текущий PIN", Toast.LENGTH_SHORT).show();
+        } else if (!stringInputOldPassword.equals(stringOldPassword)) {
+        Toast.makeText(this, "не верно введен PIN", Toast.LENGTH_SHORT).show();
+        } else {
+        FilePin.exportPIN(this, stringNewPassword);
+        }
+        } else {
+        FilePin.exportPIN(this, stringNewPassword);
+        }
+        }
+*/
