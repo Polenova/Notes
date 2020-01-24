@@ -10,7 +10,7 @@ public class App extends Application {
         super.onCreate();
 
         noteRepository = new FileNotes();
-        //keystore = new FilePin();
+        keystore = new FilePin();
     }
 
     // Возвращаем интерфейс, а не конкретную реализацию!
