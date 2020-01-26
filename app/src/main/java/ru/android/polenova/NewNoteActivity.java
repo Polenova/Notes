@@ -38,6 +38,7 @@ public class NewNoteActivity extends AppCompatActivity {
     private Bundle bundle;
 
     final Calendar dateDeadLine = Calendar.getInstance();
+    private NoteRepository noteRepository = App.getNoteRepository();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +140,7 @@ public class NewNoteActivity extends AppCompatActivity {
 
     private void saveInfoNote() {
         if (bundle != null) {
-            FileNotes.remove(this, getNote);
+            noteRepository.deleteById(this, getNote);
         }
         textName = editTextName.getText().toString();
         textBody = editTextBody.getText().toString();
@@ -147,7 +148,7 @@ public class NewNoteActivity extends AppCompatActivity {
         checkIsChecked = checkBoxSelect.isChecked();
         Note noteNewInfo = new Note(textName, textBody, textDate, checkIsChecked);
         try {
-            FileNotes.exportToJSON(this, noteNewInfo);
+            noteRepository.saveNote(this, noteNewInfo);
             Toast.makeText(this, "готово", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             e.printStackTrace();

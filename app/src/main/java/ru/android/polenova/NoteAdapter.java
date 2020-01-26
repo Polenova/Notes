@@ -1,7 +1,6 @@
 package ru.android.polenova;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,6 +26,8 @@ public class NoteAdapter extends BaseAdapter {
     private String textDateOfCreate;
     private boolean checkIsChecked;
 
+    private NoteRepository noteRepository = App.getNoteRepository();
+
     NoteAdapter(Context context, List<Note> notesList) {
         myContext = context;
         this.notesList = notesList;
@@ -43,7 +44,7 @@ public class NoteAdapter extends BaseAdapter {
         Note note = notesList.get(position);
         notesList.remove(position);
         try {
-            FileNotes.remove(myContext, note);
+            noteRepository.deleteById(myContext, note);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -135,7 +136,6 @@ public class NoteAdapter extends BaseAdapter {
                         });
                 AlertDialog alert = builder.create();
                 alert.show();
-
                 return false;
             }
         });

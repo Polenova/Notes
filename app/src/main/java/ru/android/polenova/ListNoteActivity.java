@@ -2,6 +2,7 @@ package ru.android.polenova;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,12 +29,10 @@ import java.util.List;
 
 public class ListNoteActivity extends AppCompatActivity {
 
-    private String txtName;
-    private String txtBody;
-    private String txtDate;
-    private TextView textViewName;
     private List<Note> notes = new ArrayList<>();
-    BaseAdapter adapter;
+    private BaseAdapter adapter;
+    private NoteRepository noteRepository = App.getNoteRepository();
+    private SwipeRefreshLayout swipeRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +40,24 @@ public class ListNoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_note);
         this.setTitle("заметки");
         initView();
-        getNotes();
+        getNotesList();
     }
 
-    private List<Note> getNotes() {
+    private void initSwipeRefresh() {
+        swipeRefresh = findViewById(R.id.swipeRefresh);
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                notes.clear();
+                getNotesList();
+                swipeRefresh.setRefreshing(false);
+            }
+        });
+    }
+
+    private List<Note> getNotesList() {
         try {
-            notes = FileNotes.importFromJSON(this);
+            notes = noteRepository.getNotes(this);
         } catch (EmptyStackException e) {
             e.getMessage();
         }

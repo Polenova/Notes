@@ -18,22 +18,30 @@ public class FileNotes implements NoteRepository {
 
     private static final String FILE_NAME_NOTES = "notes";
     private static Gson gson = new Gson();
+    private Context context;
 
-    static void exportToJSON(Context context, Note note) {
+    public FileNotes(Context context) {
+        this.context = context;
+    }
+
+    @Override
+    public void saveNote(Context context, Note note) {
         SharedPreferences preferences = getPreferences(context);
         preferences.edit()
                 .putString(note.getDate().toString(), gson.toJson(note))
                 .apply();
     }
 
-    static void remove(Context context, Note note) {
+    @Override
+    public void deleteById(Context context, Note note) {
         SharedPreferences preferences = getPreferences(context);
         preferences.edit()
                 .remove(note.getDate().toString())
                 .apply();
     }
 
-    static List<Note> importFromJSON(Context context) {
+    @Override
+    public List<Note> getNotes(Context context) {
         SharedPreferences preferences = getPreferences(context);
         Map<String, ?> all = preferences.getAll();
         List<Note> result = new ArrayList<>(all.size());
@@ -41,6 +49,7 @@ public class FileNotes implements NoteRepository {
             String noteSerialized = (String) entry.getValue();
             result.add(gson.fromJson(noteSerialized, Note.class));
         }
+
         Collections.sort(result, new Comparator<Note>() {
             @Override
             public int compare(Note thisNote, Note anotherNote) {
@@ -60,20 +69,5 @@ public class FileNotes implements NoteRepository {
     @Override
     public Note getNoteById(String id) {
         return null;
-    }
-
-    @Override
-    public List<Note> getNotes() {
-        return null;
-    }
-
-    @Override
-    public void saveNote(Note note) {
-
-    }
-
-    @Override
-    public void deleteById(String id) {
-
     }
 }

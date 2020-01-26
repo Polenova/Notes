@@ -54,7 +54,7 @@ public class FilePin implements Keystore {
             bufferedWriter.close();
             Toast.makeText(context, "пароль сохранен", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
-            Toast.makeText(context, "пароль  не сохранен", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "ошибка сохранения", Toast.LENGTH_SHORT).show();
         }
     }
 
