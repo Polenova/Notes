@@ -38,7 +38,7 @@ public class ListNoteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_note);
-        this.setTitle("заметки");
+        this.setTitle(R.string.title_notes);
         initView();
         getNotesList();
     }
@@ -66,9 +66,8 @@ public class ListNoteActivity extends AppCompatActivity {
             ListView listView = findViewById(R.id.list);
             listView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
-            Toast.makeText(this, "Данные добавлены", Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(this, "Не удалось открыть данные", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.toast_error_add, Toast.LENGTH_LONG).show();
         }
         return null;
     }

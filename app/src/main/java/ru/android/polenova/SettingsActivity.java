@@ -3,18 +3,14 @@ package ru.android.polenova;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
-
-import java.util.EmptyStackException;
 
 
 public class SettingsActivity extends AppCompatActivity {
@@ -24,13 +20,14 @@ public class SettingsActivity extends AppCompatActivity {
     private ImageButton btnEysNewPin;
     private ImageButton btnEysOldPin;
     private String stringNewPassword;
-    private String stringOldPassword;
+    private Keystore keystore = App.getKeystore();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        this.setTitle("настройки");
+        this.setTitle(R.string.title_setting);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initView();
     }
@@ -77,11 +74,11 @@ public class SettingsActivity extends AppCompatActivity {
         if (typeNow != (InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_CLASS_NUMBER)) {
             btnEysOldPin.setImageResource(R.drawable.ic_remove_red_eye_black_24dp);
             editOldPin.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_CLASS_NUMBER);
-            editOldPin.setSelection(editNewPin.length());
+            editOldPin.setSelection(editOldPin.length());
         } else {
             btnEysOldPin.setImageResource(R.drawable.ic_visibility_off_black_24dp);
             editOldPin.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
-            editOldPin.setSelection(editNewPin.length());
+            editOldPin.setSelection(editOldPin.length());
         }
     }
 
@@ -101,34 +98,16 @@ public class SettingsActivity extends AppCompatActivity {
     private void savePinFile() {
         stringNewPassword = editNewPin.getText().toString();
         int count = stringNewPassword.length();
-        boolean charBoolean = false;
-        char[] chars = stringNewPassword.toCharArray();
-        for (char element : chars) {
-            charBoolean = Character.isLetter(element);
-        }
         if (count < 4) {
-            Toast.makeText(this, "введите 4 цифры", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_enter4, Toast.LENGTH_SHORT).show();
         } else {
-            if (charBoolean == true) {
-                Toast.makeText(this, "введите цифры", Toast.LENGTH_SHORT).show();
+            String stringInputOldPassword = editOldPin.getText().toString();
+            if ("".equals(stringInputOldPassword)) {
+                Toast.makeText(this, R.string.toast_enter_PIN, Toast.LENGTH_SHORT).show();
+            } else if (!keystore.checkPin(stringInputOldPassword)) {
+                Toast.makeText(this, R.string.toast_error_PIN, Toast.LENGTH_SHORT).show();
             } else {
-                try {
-                    stringOldPassword = FilePin.importPIN(this);
-                } catch (EmptyStackException e) {
-                    e.getMessage();
-                }
-                if (stringOldPassword != null) {
-                    String stringInputOldPassword = editOldPin.getText().toString();
-                    if ("".equals(stringInputOldPassword)) {
-                        Toast.makeText(this, "введите текущий PIN", Toast.LENGTH_SHORT).show();
-                    } else if (!stringInputOldPassword.equals(stringOldPassword)) {
-                        Toast.makeText(this, "не верно введен PIN", Toast.LENGTH_SHORT).show();
-                    } else {
-                        FilePin.exportPIN(this, stringNewPassword);
-                    }
-                } else {
-                    FilePin.exportPIN(this, stringNewPassword);
-                }
+                keystore.saveNew(stringNewPassword);
             }
         }
     }

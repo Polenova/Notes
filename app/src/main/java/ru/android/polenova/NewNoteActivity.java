@@ -44,9 +44,13 @@ public class NewNoteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_note);
-        this.setTitle("новые данные");
+        this.setTitle(R.string.title_new_note);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initView();
+        initBundle();
+    }
+
+    private void initBundle() {
         bundle = getIntent().getExtras();
         if (bundle != null) {
             getNote = (Note) bundle.getSerializable(Note.class.getSimpleName());
@@ -70,7 +74,7 @@ public class NewNoteActivity extends AppCompatActivity {
                         setDate();
                     }
                 } else {
-                    Toast.makeText(getApplicationContext(), "Без крайней даты", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.toast_deadline_no, Toast.LENGTH_SHORT).show();
                     String convertText = editTextDate.getText().toString();
                     editTextDate.setHint(convertText);
                     editTextDate.getText().clear();
@@ -120,11 +124,10 @@ public class NewNoteActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_save) {
-            Toast.makeText(NewNoteActivity.this, "save", Toast.LENGTH_LONG).show();
             saveInfoNote();
             return false;
         } else if (id == R.id.action_clear) {
-            Toast.makeText(NewNoteActivity.this, "clear", Toast.LENGTH_LONG).show();
+            Toast.makeText(NewNoteActivity.this, R.string.toast_clear, Toast.LENGTH_LONG).show();
             editTextName.getText().clear();
             editTextBody.getText().clear();
             editTextDate.getText().clear();
@@ -149,10 +152,10 @@ public class NewNoteActivity extends AppCompatActivity {
         Note noteNewInfo = new Note(textName, textBody, textDate, checkIsChecked);
         try {
             noteRepository.saveNote(this, noteNewInfo);
-            Toast.makeText(this, "готово", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_saved, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "ошибка сохранения", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_not_saved, Toast.LENGTH_SHORT).show();
         }
     }
 }

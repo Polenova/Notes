@@ -1,8 +1,27 @@
 <resources>
-    <string name="app_name">DIPLOM</string>
+    <string name="app_name">NOTES</string>
     <string name="name_note">заголовок</string>
     <string name="text_note">текст</string>
     <string name="date_note">крайняя дата</string>
     <string name="select_date">установить крайний срок</string>
     <string name="ok">OK</string>
+    <string name="button_save">сохранить</string>
+    <string name="new_pin">задать PIN:</string>
+    <string name="old_pin">старый PIN</string>
+    <string name="dialog_delete">Удалить заметку?</string>
+    <string name="dialog_delete_yes">удалить</string>
+    <string name="dialog_delete_no">отмена</string>
+    <string name="toast_deadline_no">без крайней даты</string>
+    <string name="toast_clear">данные удалены</string>
+    <string name="toast_saved">данные сохранены</string>
+    <string name="toast_not_saved">не удалось сохранить данные</string>
+    <string name="title_new_note">новые данные</string>
+    <string name="title_setting">настройки</string>
+    <string name="title_notes">заметки</string>
+    <string name="toast_enter4">введите четыре цифры</string>
+    <string name="toast_enter_PIN">введите текущий PIN</string>
+    <string name="toast_error_PIN">не верно введен PIN</string>
+    <string name="toast_saved_PIN">сохранен PIN</string>
+    <string name="toast_not_saved_PIN">ошибка сохранения PIN</string>
+    <string name="toast_error_add">нет данных</string>
 </resources>

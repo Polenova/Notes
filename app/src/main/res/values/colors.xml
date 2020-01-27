@@ -5,5 +5,8 @@
     <color name="colorAccent">#D81B60</color> 7EFFEB3B
     <color name="colorAccentText">#D81B60</color> 7EFFEB3B
     <color name="colorBackgroundRed">#C8F44336</color> 7EFFEB3B
-    <color name="colorBackgroundYellow">#7EFFEB3B</color> 7EFFEB3B
+    <color name="colorBackgroundYellow">#7EFFEB3B</color>
+    <color name="light_grey">#E2E2E2</color>
+    <color name="white">#FFFFFF</color>
+    7EFFEB3B
 </resources>
