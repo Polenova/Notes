@@ -1,97 +1,70 @@
 package ru.android.polenova;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
 public class Note implements Serializable {
 
+    @NonNull
+    private String id;
+    @Nullable
     private String textNameNote;
+    @Nullable
     private String textBodyNote;
-    private String textDateNote;
-    private boolean checkIsChecked;
-    private Long date;
-
-    public Note(String textNameNote, String textBodyNote, String textDateNote, boolean checkIsChecked) {
+    private boolean checked;
+    @NonNull
+    private Date lastModifiedDate;
+    @Nullable
+    private Date deadLineDate;
+    public Note(@NonNull String id, @Nullable String textNameNote, @Nullable String textBodyNote, boolean checked, @NonNull Date lastModifiedDate, @Nullable Date deadLineDate) {
+        this.id = id;
         this.textNameNote = textNameNote;
         this.textBodyNote = textBodyNote;
-        this.textDateNote = textDateNote;
-        this.checkIsChecked = checkIsChecked;
-        date = new Date().getTime();
+        this.checked = checked;
+        this.lastModifiedDate = lastModifiedDate;
+        this.deadLineDate = deadLineDate;
     }
-
-    public Note(String textNameNote, String textBodyNote, String textDateNote, boolean checkIsChecked, Long date) {
-        this.textNameNote = textNameNote;
-        this.textBodyNote = textBodyNote;
-        this.textDateNote = textDateNote;
-        this.checkIsChecked = checkIsChecked;
-        this.date = date;
+    @NonNull
+    public String getId() {
+        return id;
     }
-
+    @Nullable
     public String getTextNameNote() {
         return textNameNote;
     }
-
-    public boolean isCheckIsChecked() {
-        return checkIsChecked;
-    }
-
-    public void setCheckIsChecked(boolean checkIsChecked) {
-        this.checkIsChecked = checkIsChecked;
-    }
-
-    public void setTextNameNote(String textNameNote) {
-        this.textNameNote = textNameNote;
-    }
-
+    @Nullable
     public String getTextBodyNote() {
         return textBodyNote;
     }
-
-    public void setTextBodyNote(String textBodyNote) {
-        this.textBodyNote = textBodyNote;
+    public boolean isChecked() {
+        return checked;
     }
-
-    public String getTextDateNote() {
-        return textDateNote;
+    @NonNull
+    public Date getLastModifiedDate() {
+        return lastModifiedDate;
     }
-
-    public void setTextDateNote(String textDateNote) {
-        this.textDateNote = textDateNote;
+    @Nullable
+    public Date getDeadLineDate() {
+        return deadLineDate;
     }
-
-    public Long getDate() {
-        return date;
-    }
-
-    public void setDate(Long date) {
-        this.date = date;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Note note = (Note) o;
-        return Objects.equals(textNameNote, note.textNameNote) &&
+        return checked == note.checked &&
+                id.equals(note.id) &&
+                Objects.equals(textNameNote, note.textNameNote) &&
                 Objects.equals(textBodyNote, note.textBodyNote) &&
-                Objects.equals(textDateNote, note.textDateNote) &&
-                Objects.equals(checkIsChecked, note.checkIsChecked) &&
-                Objects.equals(date, note.date);
+                lastModifiedDate.equals(note.lastModifiedDate) &&
+                Objects.equals(deadLineDate, note.deadLineDate);
     }
-
     @Override
     public int hashCode() {
-        return Objects.hash(textNameNote, textBodyNote, textDateNote, date);
-    }
-
-    @Override
-    public String toString() {
-        return "Note{" +
-                "textNameNote='" + textNameNote + '\'' +
-                ", textBodyNote='" + textBodyNote + '\'' +
-                ", textDateNote='" + textDateNote + '\'' +
-                ", date=" + date +
-                '}';
+        return Objects.hash(id, textNameNote, textBodyNote, checked, lastModifiedDate, deadLineDate);
     }
 }

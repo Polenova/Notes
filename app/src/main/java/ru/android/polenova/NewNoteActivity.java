@@ -17,7 +17,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class NewNoteActivity extends AppCompatActivity {
@@ -30,13 +34,14 @@ public class NewNoteActivity extends AppCompatActivity {
     private String textName;
     private String textBody;
     private String textDate;
-    private String textDateOfCreate;
+    private String deadLineDate;
     private boolean checkIsChecked;
 
     private Note getNote;
     private DatePickerDialog.OnDateSetListener onDateSet;
     private Bundle bundle;
 
+    private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
     final Calendar dateDeadLine = Calendar.getInstance();
     private NoteRepository noteRepository = App.getNoteRepository();
 
@@ -54,11 +59,18 @@ public class NewNoteActivity extends AppCompatActivity {
         bundle = getIntent().getExtras();
         if (bundle != null) {
             getNote = (Note) bundle.getSerializable(Note.class.getSimpleName());
-            textDateOfCreate = getNote.getDate().toString();
+            if (getNote == null) {
+                return;
+            }
             editTextName.setText(getNote.getTextNameNote().toString());
             editTextBody.setText(getNote.getTextBodyNote().toString());
-            editTextDate.setText(getNote.getTextDateNote().toString());
-            checkBoxSelect.setChecked(getNote.isCheckIsChecked());
+            if (getNote.getDeadLineDate() != null) {
+                deadLineDate = format.format(getNote.getDeadLineDate());
+            } else {
+                deadLineDate = "";
+            }
+            editTextDate.setText(deadLineDate);
+            checkBoxSelect.setChecked(getNote.isChecked());
         }
     }
 
@@ -142,16 +154,25 @@ public class NewNoteActivity extends AppCompatActivity {
     }
 
     private void saveInfoNote() {
-        if (bundle != null) {
-            noteRepository.deleteById(this, getNote);
-        }
         textName = editTextName.getText().toString();
         textBody = editTextBody.getText().toString();
         textDate = editTextDate.getText().toString();
         checkIsChecked = checkBoxSelect.isChecked();
-        Note noteNewInfo = new Note(textName, textBody, textDate, checkIsChecked);
+        Date deadLineDate;
         try {
-            noteRepository.saveNote(this, noteNewInfo);
+            deadLineDate = format.parse(textDate);
+        } catch (ParseException e) {
+            deadLineDate = null;
+        }
+        Note noteNewInfo;
+        if (getNote != null) {
+            noteRepository.deleteById(getNote);
+            noteNewInfo = new Note(getNote.getId(), textName, textBody, checkIsChecked, new Date(), deadLineDate);
+        } else {
+            noteNewInfo = NoteFactory.createNote(textName, textBody, checkIsChecked, deadLineDate);
+        }
+        try {
+            noteRepository.saveNote(noteNewInfo);
             Toast.makeText(this, R.string.toast_saved, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             e.printStackTrace();

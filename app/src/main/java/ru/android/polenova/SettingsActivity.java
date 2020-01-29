@@ -101,13 +101,17 @@ public class SettingsActivity extends AppCompatActivity {
         if (count < 4) {
             Toast.makeText(this, R.string.toast_enter4, Toast.LENGTH_SHORT).show();
         } else {
-            String stringInputOldPassword = editOldPin.getText().toString();
-            if ("".equals(stringInputOldPassword)) {
-                Toast.makeText(this, R.string.toast_enter_PIN, Toast.LENGTH_SHORT).show();
-            } else if (!keystore.checkPin(stringInputOldPassword)) {
-                Toast.makeText(this, R.string.toast_error_PIN, Toast.LENGTH_SHORT).show();
-            } else {
+            if (!keystore.hasPin()){
                 keystore.saveNew(stringNewPassword);
+            } else{
+                String stringInputOldPassword = editOldPin.getText().toString();
+                if ("".equals(stringInputOldPassword)) {
+                    Toast.makeText(this, R.string.toast_enter_PIN, Toast.LENGTH_SHORT).show();
+                } else if (!keystore.checkPin(stringInputOldPassword)) {
+                    Toast.makeText(this, R.string.toast_error_PIN, Toast.LENGTH_SHORT).show();
+                } else {
+                    keystore.saveNew(stringNewPassword);
+                }
             }
         }
     }

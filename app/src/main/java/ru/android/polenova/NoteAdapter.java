@@ -22,10 +22,11 @@ public class NoteAdapter extends BaseAdapter {
     Context myContext;
     private String textName;
     private String textBody;
-    private String textDate;
+    private String deadLineDate;
     private String textDateOfCreate;
     private boolean checkIsChecked;
 
+    private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
     private NoteRepository noteRepository = App.getNoteRepository();
 
     NoteAdapter(Context context, List<Note> notesList) {
@@ -44,7 +45,7 @@ public class NoteAdapter extends BaseAdapter {
         Note note = notesList.get(position);
         notesList.remove(position);
         try {
-            noteRepository.deleteById(myContext, note);
+            noteRepository.deleteById(note);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -82,33 +83,34 @@ public class NoteAdapter extends BaseAdapter {
         TextView textViewDate = view.findViewById(R.id.textViewDate);
         textName = notePosition.getTextNameNote();
         textBody = notePosition.getTextBodyNote();
-        textDate = notePosition.getTextDateNote();
-        checkIsChecked = notePosition.isCheckIsChecked();
         if ("".equals(textName)) {
             textViewName.setVisibility(View.GONE);
         } else {
             textViewName.setText(textName);
         }
         textViewBody.setText(textBody);
-        if ("".equals(textDate)) {
+        if (notePosition.getDeadLineDate() == null) {
             textViewDate.setVisibility(View.GONE);
         } else {
-            SimpleDateFormat dateNow = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-            String dateNowString = dateNow.format(new Date());
-            int dateNowInt = Integer.parseInt(dateNowString.replace(".", ""));
-            int dateInt = Integer.parseInt(textDate.replace(".", ""));
-            if (dateNowInt >= dateInt) {
+            Date dateNow = new Date();
+            if (dateNow.getTime() >= notePosition.getDeadLineDate().getTime()) {
                 textViewDate.setBackgroundResource(R.color.colorBackgroundRed);
-            } else if (dateInt <= dateNowInt + 2000000) {
-                textViewDate.setBackgroundResource(R.color.colorBackgroundYellow);
+            /*} else if (notePosition.getDeadLineDate().getTime() <= dateNow.getTime() + 2000000) {
+                textViewDate.setBackgroundResource(R.color.colorBackgroundYellow);*/
             }
-            textViewDate.setText(textDate);
+            textViewDate.setText(format.format(notePosition.getDeadLineDate()));
         }
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Note editNote = new Note(notePosition.getTextNameNote(), notePosition.getTextBodyNote(),
-                        notePosition.getTextDateNote(), notePosition.isCheckIsChecked(), notePosition.getDate());
+                Note editNote = new Note(
+                        notePosition.getId(),
+                        notePosition.getTextNameNote(),
+                        notePosition.getTextBodyNote(),
+                        notePosition.isChecked(),
+                        notePosition.getLastModifiedDate(),
+                        notePosition.getDeadLineDate()
+                );
                 Intent intent = new Intent(myContext, NewNoteActivity.class);
                 intent.putExtra(Note.class.getSimpleName(), editNote);
                 myContext.startActivity(intent);

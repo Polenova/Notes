@@ -57,7 +57,7 @@ public class ListNoteActivity extends AppCompatActivity {
 
     private List<Note> getNotesList() {
         try {
-            notes = noteRepository.getNotes(this);
+            notes = noteRepository.getNotes();
         } catch (EmptyStackException e) {
             e.getMessage();
         }
