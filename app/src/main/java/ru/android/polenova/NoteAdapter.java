@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -33,7 +35,6 @@ public class NoteAdapter extends BaseAdapter {
         myContext = context;
         this.notesList = notesList;
         layoutInFlater = layoutInFlater.from(context);
-
     }
 
     void addItem(Note item) {
@@ -92,11 +93,11 @@ public class NoteAdapter extends BaseAdapter {
         if (notePosition.getDeadLineDate() == null) {
             textViewDate.setVisibility(View.GONE);
         } else {
+            textViewDate.setVisibility(View.VISIBLE);
             Date dateNow = new Date();
             if (dateNow.getTime() >= notePosition.getDeadLineDate().getTime()) {
-                textViewDate.setBackgroundResource(R.color.colorBackgroundRed);
-            /*} else if (notePosition.getDeadLineDate().getTime() <= dateNow.getTime() + 2000000) {
-                textViewDate.setBackgroundResource(R.color.colorBackgroundYellow);*/
+               int color = textViewDate.getResources().getColor(R.color.colorAccent);
+               textViewDate.setTextColor(color);
             }
             textViewDate.setText(format.format(notePosition.getDeadLineDate()));
         }

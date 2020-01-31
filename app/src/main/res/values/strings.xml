@@ -7,7 +7,7 @@
     <string name="ok">OK</string>
     <string name="button_save">сохранить</string>
     <string name="new_pin">задать PIN:</string>
-    <string name="old_pin">старый PIN</string>
+    <string name="old_pin">текущий PIN:</string>
     <string name="dialog_delete">Удалить заметку?</string>
     <string name="dialog_delete_yes">удалить</string>
     <string name="dialog_delete_no">отмена</string>
@@ -15,9 +15,10 @@
     <string name="toast_clear">данные удалены</string>
     <string name="toast_saved">данные сохранены</string>
     <string name="toast_not_saved">не удалось сохранить данные</string>
-    <string name="title_new_note">новые данные</string>
-    <string name="title_setting">настройки</string>
-    <string name="title_notes">заметки</string>
+    <string name="title_new_note">создать</string>
+    <string name="title_edit_note">редактировать</string>
+    <string name="title_setting">настройки PIN</string>
+    <string name="title_notes">ЗАМЕТКИ</string>
     <string name="toast_enter4">введите четыре цифры</string>
     <string name="toast_enter_PIN">введите текущий PIN</string>
     <string name="toast_error_PIN">не верно введен PIN</string>

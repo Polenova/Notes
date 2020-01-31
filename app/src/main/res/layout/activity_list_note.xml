@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/light_grey"
     tools:context=".ListNoteActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -12,22 +13,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
+        android:layout_marginRight="@dimen/mr_controller_volume_group_list_padding_top"
+        android:layout_marginBottom="@dimen/mr_controller_volume_group_list_padding_top"
         android:clickable="true"
-        app:backgroundTint="@color/colorAccent"
+        app:backgroundTint="@color/color_yellow"
+        app:maxImageSize="@dimen/image_float"
         app:srcCompat="@android:drawable/ic_menu_add" />
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefresh"
+    <ListView
+        android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ListView
-            android:id="@+id/list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:freezesText="true"
-            android:nestedScrollingEnabled="true" />
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        android:layout_height="match_parent" />
 
 </FrameLayout>

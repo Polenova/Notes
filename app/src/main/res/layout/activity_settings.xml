@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/light_grey"
     android:gravity="center|center_vertical|fill_vertical"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="51dp" />
+        android:layout_height="@dimen/decor_view" />
 
     <TextView
         android:id="@+id/textAskEnterPin"
@@ -37,8 +38,8 @@
             android:id="@+id/buttonEyeNewPin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:src="@android:drawable/btn_dialog"
-            app:srcCompat="@drawable/ic_visibility_off_black_24dp"/>
+            app:srcCompat="@drawable/ic_visibility_off_black_24dp"
+            tools:src="@android:drawable/btn_dialog" />
     </LinearLayout>
 
     <TextView
@@ -61,13 +62,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="numberPassword" />
+            android:inputType="numberPassword"
+            android:maxLength="4" />
 
         <ImageButton
             android:id="@+id/buttonEyeOldPin"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_visibility_off_black_24dp"/>
+            app:srcCompat="@drawable/ic_visibility_off_black_24dp" />
     </LinearLayout>
 
     <TextView
@@ -76,7 +79,8 @@
 
     <Button
         android:id="@+id/buttonSavePin"
-        android:layout_width="wrap_content"
+        style="@android:style/Widget.DeviceDefault.Light.Button.Toggle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/button_save" />
 

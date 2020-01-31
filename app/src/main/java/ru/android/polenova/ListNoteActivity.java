@@ -43,17 +43,6 @@ public class ListNoteActivity extends AppCompatActivity {
         getNotesList();
     }
 
-    private void initSwipeRefresh() {
-        swipeRefresh = findViewById(R.id.swipeRefresh);
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                notes.clear();
-                getNotesList();
-                swipeRefresh.setRefreshing(false);
-            }
-        });
-    }
 
     private List<Note> getNotesList() {
         try {

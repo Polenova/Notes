@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="DP5">5dp</dimen>
+    <dimen name="textPIN24">24sp</dimen>
+    <dimen name="decor_view">80dp</dimen>
+    <dimen name="image_float">50dp</dimen>
 </resources>

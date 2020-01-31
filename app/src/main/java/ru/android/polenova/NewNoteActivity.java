@@ -58,6 +58,7 @@ public class NewNoteActivity extends AppCompatActivity {
     private void initBundle() {
         bundle = getIntent().getExtras();
         if (bundle != null) {
+            this.setTitle(R.string.title_edit_note);
             getNote = (Note) bundle.getSerializable(Note.class.getSimpleName());
             if (getNote == null) {
                 return;

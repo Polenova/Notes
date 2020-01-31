@@ -11,7 +11,7 @@
         android:id="@+id/CardVeiw"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        card_view:cardBackgroundColor="@color/white"
+        card_view:cardBackgroundColor="@color/color_white"
         card_view:cardElevation="@dimen/DP5"
         card_view:contentPadding="@dimen/DP5">
 
@@ -36,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="3"
+                android:textColor="@color/color_blue"
                 android:textStyle="italic" />
 
             <TextView
@@ -44,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:gravity="right|end"
-                android:textStyle="bold|italic" />
+                android:textColor="@color/medium_grey" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
