@@ -28,8 +28,14 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         this.setTitle(R.string.title_setting);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initView();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -44,6 +50,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         editNewPin = findViewById(R.id.editTextNewPin);
         editOldPin = findViewById(R.id.editTextOldPin);
         btnEysNewPin = findViewById(R.id.buttonEyeNewPin);

@@ -50,9 +50,15 @@ public class NewNoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_note);
         this.setTitle(R.string.title_new_note);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initView();
         initBundle();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Intent intent = new Intent(NewNoteActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 
     private void initBundle() {
@@ -76,6 +82,7 @@ public class NewNoteActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         editTextName = findViewById(R.id.editNameNote);
         editTextBody = findViewById(R.id.multiTextNote);
         editTextDate = findViewById(R.id.editDeadLine);
@@ -147,6 +154,10 @@ public class NewNoteActivity extends AppCompatActivity {
             checkBoxSelect.setChecked(false);
             return false;
         } else if (id == android.R.id.home) {
+            Intent intent = new Intent(NewNoteActivity.this, ListNoteActivity.class);
+            startActivity(intent);
+            return false;
+        } else if (id == android.R.id.action_share) {
             Intent intent = new Intent(NewNoteActivity.this, ListNoteActivity.class);
             startActivity(intent);
             return false;

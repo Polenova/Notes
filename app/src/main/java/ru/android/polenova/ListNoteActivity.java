@@ -1,28 +1,18 @@
 package ru.android.polenova;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.List;
@@ -32,7 +22,6 @@ public class ListNoteActivity extends AppCompatActivity {
     private List<Note> notes = new ArrayList<>();
     private BaseAdapter adapter;
     private NoteRepository noteRepository = App.getNoteRepository();
-    private SwipeRefreshLayout swipeRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +29,14 @@ public class ListNoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_note);
         this.setTitle(R.string.title_notes);
         initView();
-        getNotesList();
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Intent intent = new Intent(ListNoteActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
 
     private List<Note> getNotesList() {
         try {
@@ -62,6 +56,7 @@ public class ListNoteActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        getNotesList();
         FloatingActionButton buttonAddNewNote = findViewById(R.id.floatingActionButton);
         buttonAddNewNote.setOnClickListener(new View.OnClickListener() {
             @Override

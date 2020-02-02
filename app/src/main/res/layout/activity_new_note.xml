@@ -33,7 +33,7 @@
             <MultiAutoCompleteTextView
                 android:id="@+id/multiTextNote"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="@dimen/multi_text"
                 android:hapticFeedbackEnabled="false"
                 android:hint="@string/text_note"
                 android:textAlignment="center"
@@ -43,6 +43,7 @@
                 android:id="@+id/checkBoxSelectDeadLine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/color_blue"
                 android:layout_gravity="right"
                 android:text="@string/select_date" />
 

@@ -25,4 +25,8 @@
     <string name="toast_saved_PIN">сохранен PIN</string>
     <string name="toast_not_saved_PIN">ошибка сохранения PIN</string>
     <string name="toast_error_add">нет данных</string>
+    <string name="pin_off">выключить запрос PIN</string>
+    <string name="item_save">сохранить</string>
+    <string name="item_clear">очистить</string>
+    <string name="item_share">поделиться</string>
 </resources>
