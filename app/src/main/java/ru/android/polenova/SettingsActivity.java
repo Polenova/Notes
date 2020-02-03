@@ -31,6 +31,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     public static final String myPrefs = "myPrefs";
     public static final String nameKey = "nameKey";
+    private String pinOff = "pinOff";
 
     private Keystore keystore = App.getKeystore();
 
@@ -86,8 +87,8 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
         checkOffPin = findViewById(R.id.checkBoxOffPIN);
-        if (sharedPrefs!=null) {
-            checkOffPin.setChecked(sharedPrefs.getBoolean(nameKey, checkOffPin.isChecked()));
+        if (sharedPrefs.contains(nameKey)) {
+            checkOffPin.setChecked(sharedPrefs.getBoolean(nameKey, false));
         }
         checkOffPin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -98,7 +99,7 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             }
         });
-        //FilePin checkBox = new FilePin(checkOffPin.isChecked());
+
     }
 
     public void switchOffPin() {
@@ -114,7 +115,7 @@ public class SettingsActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             if (keystore.checkPin(input.getText().toString())) {
                                 checkOffPin.setChecked(true);
-                                keystore.deletePin();
+                                keystore.saveNew(pinOff);
                                 Toast.makeText(SettingsActivity.this, R.string.toast_clear, Toast.LENGTH_SHORT).show();
                             } else {
                                 checkOffPin.setChecked(false);
@@ -133,6 +134,7 @@ public class SettingsActivity extends AppCompatActivity {
             alert.show();
         } else {
             checkOffPin.setChecked(true);
+            keystore.saveNew(pinOff);
             Toast.makeText(SettingsActivity.this, R.string.toast_saved_PINOff, Toast.LENGTH_SHORT).show();
         }
         setSharedPreferences();
@@ -142,8 +144,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void setSharedPreferences() {
         sharedPrefs = getSharedPreferences(myPrefs, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPrefs.edit();
-        editor.putBoolean(nameKey, checkOffPin.isChecked());
-        editor.apply();
+        editor.putBoolean(nameKey, checkOffPin.isChecked()).commit();
     }
 
     private void setVisibleTextOldPin() {
@@ -178,8 +179,9 @@ public class SettingsActivity extends AppCompatActivity {
         if (count < 4) {
             Toast.makeText(this, R.string.toast_enter4, Toast.LENGTH_SHORT).show();
         } else {
-            if (!keystore.hasPin()) {
+            if (!keystore.hasPin()||keystore.checkPin(pinOff)) {
                 keystore.saveNew(stringNewPassword);
+                checkOffPin.setChecked(false);
             } else {
                 //equalsPin();
                 String stringInputOldPassword = editOldPin.getText().toString();

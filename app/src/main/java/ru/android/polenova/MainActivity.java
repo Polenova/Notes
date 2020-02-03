@@ -19,15 +19,13 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton radioButton3;
     private RadioButton radioButton4;
     private String stringPIN;
-    private FilePin checkPinOff;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.setTitle(R.string.title_notes);
-        checkSettings();
-        //findOldPIN();
+        findOldPIN();
         Button btnNote = (findViewById(R.id.buttonNote));
         btnNote.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,24 +37,15 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void checkSettings() {
-
-        if (checkPinOff != null) {
-            if (checkPinOff.isChecked()) {
-                Intent intent = new Intent(MainActivity.this, ListNoteActivity.class);
-                startActivity(intent);
-            }
-        } else {
-            findOldPIN();
-        }
-    }
-
     private void findOldPIN() {
         if (!keystore.hasPin()){
-            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
         } else {
-            initView();
+            if (keystore.checkPin("pinOff")) {
+                startActivity(new Intent(MainActivity.this, ListNoteActivity.class));
+            } else {
+                initView();
+            }
         }
     }
 
