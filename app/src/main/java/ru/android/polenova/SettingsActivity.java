@@ -18,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 
+
 public class SettingsActivity extends AppCompatActivity {
 
     private EditText editNewPin;
@@ -40,10 +41,6 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         this.setTitle(R.string.title_setting);
         initView();
-        sharedPrefs = getSharedPreferences(myPrefs, MODE_PRIVATE);
-        if (sharedPrefs.contains(nameKey)) {
-            checkOffPin.setChecked(sharedPrefs.getBoolean(nameKey, checkOffPin.isChecked()));
-        }
     }
 
     @Override
@@ -89,48 +86,64 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
         checkOffPin = findViewById(R.id.checkBoxOffPIN);
-        checkOffPin.isChecked();
+        if (sharedPrefs!=null) {
+            checkOffPin.setChecked(sharedPrefs.getBoolean(nameKey, checkOffPin.isChecked()));
+        }
         checkOffPin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (!isChecked) {
-                    if (keystore.hasPin()) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
-                        final EditText input = new EditText(SettingsActivity.this);
-                        input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
-                        builder.setTitle(R.string.dialog_OffPin)
-                                .setCancelable(false)
-                                .setView(input)
-                                .setPositiveButton(R.string.dialog_OK, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        if (keystore.checkPin(input.getText().toString())) {
-                                            checkOffPin.setChecked(true);
-                                            keystore.deletePin();
-                                        } else {
-                                            checkOffPin.setChecked(false);
-                                            Toast.makeText(SettingsActivity.this, R.string.toast_error_PIN, Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                })
-                                .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.cancel();
-                                        checkOffPin.setChecked(false);
-                                    }
-                                });
-                        AlertDialog alert = builder.create();
-                        alert.show();
-                    }
-                    FilePin checkBox = new FilePin(checkOffPin.isChecked());
-                    SharedPreferences.Editor editor = sharedPrefs.edit();
-                    editor.putBoolean(nameKey, checkOffPin.isChecked());
-                    editor.apply();
+                if (isChecked) {
+                    switchOffPin();
+                } else {
+                    checkOffPin.setChecked(false);
                 }
             }
-
         });
+        //FilePin checkBox = new FilePin(checkOffPin.isChecked());
+    }
 
+    public void switchOffPin() {
+        if (keystore.hasPin()) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
+            final EditText input = new EditText(SettingsActivity.this);
+            input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+            builder.setTitle(R.string.dialog_OffPin)
+                    .setCancelable(false)
+                    .setView(input)
+                    .setPositiveButton(R.string.dialog_OK, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (keystore.checkPin(input.getText().toString())) {
+                                checkOffPin.setChecked(true);
+                                keystore.deletePin();
+                                Toast.makeText(SettingsActivity.this, R.string.toast_clear, Toast.LENGTH_SHORT).show();
+                            } else {
+                                checkOffPin.setChecked(false);
+                                Toast.makeText(SettingsActivity.this, R.string.toast_error_PIN, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    })
+                    .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                            checkOffPin.setChecked(false);
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
+        } else {
+            checkOffPin.setChecked(true);
+            Toast.makeText(SettingsActivity.this, R.string.toast_saved_PINOff, Toast.LENGTH_SHORT).show();
+        }
+        setSharedPreferences();
+    }
+
+
+    private void setSharedPreferences() {
+        sharedPrefs = getSharedPreferences(myPrefs, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        editor.putBoolean(nameKey, checkOffPin.isChecked());
+        editor.apply();
     }
 
     private void setVisibleTextOldPin() {
@@ -180,15 +193,4 @@ public class SettingsActivity extends AppCompatActivity {
             }
         }
     }
-
-   /* private void equalsPin() {
-        String stringInputOldPassword = editOldPin.getText().toString();
-        if ("".equals(stringInputOldPassword)) {
-            Toast.makeText(this, R.string.toast_enter_PIN, Toast.LENGTH_SHORT).show();
-        } else if (!keystore.checkPin(stringInputOldPassword)) {
-            Toast.makeText(this, R.string.toast_error_PIN, Toast.LENGTH_SHORT).show();
-        } else {
-            keystore.conditionPinOff();
-        }
-    }*/
 }

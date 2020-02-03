@@ -24,6 +24,7 @@
     <string name="toast_enter_PIN">введите текущий PIN</string>
     <string name="toast_error_PIN">не верно введен PIN</string>
     <string name="toast_saved_PIN">сохранен PIN</string>
+    <string name="toast_saved_PINOff">запрос PIN выключен</string>
     <string name="toast_not_saved_PIN">ошибка сохранения PIN</string>
     <string name="toast_error_add">нет данных</string>
     <string name="pin_off">выключить запрос PIN</string>
