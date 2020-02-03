@@ -19,8 +19,6 @@ public class FileNotes implements NoteRepository {
     private static final String FILE_NAME_NOTES = "notes";
     private static Gson gson = new Gson();
     private SharedPreferences preferences;
-    private int flag1 = 0;
-    private int flag2 = 0;
 
     public FileNotes(Context context) {
         preferences = context.getSharedPreferences(FILE_NAME_NOTES, MODE_PRIVATE);

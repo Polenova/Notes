@@ -125,13 +125,13 @@ public class NoteAdapter extends BaseAdapter {
                         .setMessage(notePosition.getTextNameNote())
                         .setIcon(R.drawable.ic_delete_forever_black_24dp)
                         .setCancelable(false)
-                        .setPositiveButton(R.string.dialog_delete_yes, new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.dialog_OK, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 removeItem(position);
                             }
                         })
-                        .setNegativeButton(R.string.dialog_delete_no, new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.cancel();

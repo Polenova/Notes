@@ -8,9 +8,10 @@
     <string name="button_save">сохранить</string>
     <string name="new_pin">задать PIN:</string>
     <string name="old_pin">текущий PIN:</string>
+    <string name="dialog_OffPin">Для отключения PIN введите актуальный PIN</string>
     <string name="dialog_delete">Удалить заметку?</string>
-    <string name="dialog_delete_yes">удалить</string>
-    <string name="dialog_delete_no">отмена</string>
+    <string name="dialog_OK">OK</string>
+    <string name="dialog_cancel">отмена</string>
     <string name="toast_deadline_no">без крайней даты</string>
     <string name="toast_clear">данные удалены</string>
     <string name="toast_saved">данные сохранены</string>
@@ -29,4 +30,6 @@
     <string name="item_save">сохранить</string>
     <string name="item_clear">очистить</string>
     <string name="item_share">поделиться</string>
+    <string name="share_no">нет разрешения на отправку сообщений</string>
+
 </resources>

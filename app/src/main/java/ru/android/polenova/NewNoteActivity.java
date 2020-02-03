@@ -1,8 +1,11 @@
 package ru.android.polenova;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +19,8 @@ import android.widget.MultiAutoCompleteTextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,8 +43,9 @@ public class NewNoteActivity extends AppCompatActivity {
     private boolean checkIsChecked;
 
     private Note getNote;
-    private DatePickerDialog.OnDateSetListener onDateSet;
     private Bundle bundle;
+
+    private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 22;
 
     private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
     final Calendar dateDeadLine = Calendar.getInstance();
@@ -90,7 +96,7 @@ public class NewNoteActivity extends AppCompatActivity {
         checkBoxSelect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    if ("".equals(editTextDate.getText().toString())){
+                    if ("".equals(editTextDate.getText().toString())) {
                         setDate();
                     }
                 } else {
@@ -157,13 +163,37 @@ public class NewNoteActivity extends AppCompatActivity {
             Intent intent = new Intent(NewNoteActivity.this, ListNoteActivity.class);
             startActivity(intent);
             return false;
-        } else if (id == android.R.id.action_share) {
-            Intent intent = new Intent(NewNoteActivity.this, ListNoteActivity.class);
-            startActivity(intent);
+        } else if (id == R.id.action_share) {
+            shareText();
             return false;
         }
         return true;
     }
+
+    private void shareText() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) !=
+                PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS},
+                    MY_PERMISSIONS_REQUEST_SEND_SMS);
+        } else {
+            SmsManager smgr = SmsManager.getDefault();
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, editTextName.getText().toString() + "\n" + editTextBody.getText().toString());
+            sendIntent.setType("text/plain");
+            startActivity(Intent.createChooser(sendIntent, getResources().getString(R.string.item_share)));
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            shareText();
+        } else {
+            Toast.makeText(this, R.string.share_no, Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     private void saveInfoNote() {
         textName = editTextName.getText().toString();

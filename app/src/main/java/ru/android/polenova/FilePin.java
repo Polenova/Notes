@@ -1,25 +1,52 @@
 package ru.android.polenova;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.text.TextUtils;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class FilePin implements Keystore {
 
     private static final String FILE_PASSWORD = "password_notes";
     private Context context;
+    private boolean checkBoxPin;
 
     public FilePin(Context context) {
         this.context = context;
+    }
+
+    public FilePin(boolean checkBoxPin) {
+        this.checkBoxPin = checkBoxPin;
+    }
+
+    public boolean isChecked() {
+        return checkBoxPin;
+    }
+
+    @Override
+    public boolean deletePin() {
+        try {
+            File file = new File(context.getFilesDir(), FILE_PASSWORD);
+            if (file.exists()) {
+                file.delete();
+            }
+        }catch (NullPointerException ex) {
+            ex.printStackTrace();
+        }
+        return true;
     }
 
     @Override

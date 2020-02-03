@@ -2,12 +2,17 @@ package ru.android.polenova;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -20,6 +25,12 @@ public class SettingsActivity extends AppCompatActivity {
     private ImageButton btnEysNewPin;
     private ImageButton btnEysOldPin;
     private String stringNewPassword;
+    private CheckBox checkOffPin;
+    private SharedPreferences sharedPrefs;
+
+    public static final String myPrefs = "myPrefs";
+    public static final String nameKey = "nameKey";
+
     private Keystore keystore = App.getKeystore();
 
 
@@ -29,6 +40,10 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         this.setTitle(R.string.title_setting);
         initView();
+        sharedPrefs = getSharedPreferences(myPrefs, MODE_PRIVATE);
+        if (sharedPrefs.contains(nameKey)) {
+            checkOffPin.setChecked(sharedPrefs.getBoolean(nameKey, checkOffPin.isChecked()));
+        }
     }
 
     @Override
@@ -55,8 +70,7 @@ public class SettingsActivity extends AppCompatActivity {
         editOldPin = findViewById(R.id.editTextOldPin);
         btnEysNewPin = findViewById(R.id.buttonEyeNewPin);
         btnEysOldPin = findViewById(R.id.buttonEyeOldPin);
-        Button btnSavePin = findViewById(R.id.buttonSavePin);
-        btnSavePin.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.buttonSavePin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 savePinFile();
@@ -74,6 +88,49 @@ public class SettingsActivity extends AppCompatActivity {
                 setVisibleTextOldPin();
             }
         });
+        checkOffPin = findViewById(R.id.checkBoxOffPIN);
+        checkOffPin.isChecked();
+        checkOffPin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!isChecked) {
+                    if (keystore.hasPin()) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
+                        final EditText input = new EditText(SettingsActivity.this);
+                        input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+                        builder.setTitle(R.string.dialog_OffPin)
+                                .setCancelable(false)
+                                .setView(input)
+                                .setPositiveButton(R.string.dialog_OK, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        if (keystore.checkPin(input.getText().toString())) {
+                                            checkOffPin.setChecked(true);
+                                            keystore.deletePin();
+                                        } else {
+                                            checkOffPin.setChecked(false);
+                                            Toast.makeText(SettingsActivity.this, R.string.toast_error_PIN, Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                })
+                                .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                        checkOffPin.setChecked(false);
+                                    }
+                                });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                    }
+                    FilePin checkBox = new FilePin(checkOffPin.isChecked());
+                    SharedPreferences.Editor editor = sharedPrefs.edit();
+                    editor.putBoolean(nameKey, checkOffPin.isChecked());
+                    editor.apply();
+                }
+            }
+
+        });
+
     }
 
     private void setVisibleTextOldPin() {
@@ -108,9 +165,10 @@ public class SettingsActivity extends AppCompatActivity {
         if (count < 4) {
             Toast.makeText(this, R.string.toast_enter4, Toast.LENGTH_SHORT).show();
         } else {
-            if (!keystore.hasPin()){
+            if (!keystore.hasPin()) {
                 keystore.saveNew(stringNewPassword);
-            } else{
+            } else {
+                //equalsPin();
                 String stringInputOldPassword = editOldPin.getText().toString();
                 if ("".equals(stringInputOldPassword)) {
                     Toast.makeText(this, R.string.toast_enter_PIN, Toast.LENGTH_SHORT).show();
@@ -122,4 +180,15 @@ public class SettingsActivity extends AppCompatActivity {
             }
         }
     }
+
+   /* private void equalsPin() {
+        String stringInputOldPassword = editOldPin.getText().toString();
+        if ("".equals(stringInputOldPassword)) {
+            Toast.makeText(this, R.string.toast_enter_PIN, Toast.LENGTH_SHORT).show();
+        } else if (!keystore.checkPin(stringInputOldPassword)) {
+            Toast.makeText(this, R.string.toast_error_PIN, Toast.LENGTH_SHORT).show();
+        } else {
+            keystore.conditionPinOff();
+        }
+    }*/
 }
