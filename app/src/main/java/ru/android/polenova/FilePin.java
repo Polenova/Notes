@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,10 +19,22 @@ public class FilePin implements Keystore {
 
     private static final String FILE_PASSWORD = "password_notes";
     private Context context;
-    private boolean checkBoxPin;
 
     public FilePin(Context context) {
         this.context = context;
+    }
+
+    @Override
+    public boolean deletePin() {
+        try {
+            File file = new File(context.getFilesDir(), FILE_PASSWORD);
+            if (file.exists()) {
+                file.delete();
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
     @Override

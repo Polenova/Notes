@@ -2,6 +2,7 @@ package ru.android.polenova;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -28,7 +29,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-
 public class NewNoteActivity extends AppCompatActivity {
 
     private EditText editTextName;
@@ -46,7 +46,7 @@ public class NewNoteActivity extends AppCompatActivity {
     private Bundle bundle;
 
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 22;
-
+    private DatePickerDialog datePickerDialog;
     private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
     final Calendar dateDeadLine = Calendar.getInstance();
     private NoteRepository noteRepository = App.getNoteRepository();
@@ -101,9 +101,9 @@ public class NewNoteActivity extends AppCompatActivity {
                     }
                 } else {
                     Toast.makeText(getApplicationContext(), R.string.toast_deadline_no, Toast.LENGTH_SHORT).show();
-                    String convertText = editTextDate.getText().toString();
-                    editTextDate.setHint(convertText);
+                    editTextDate.setHint(getString(R.string.date_note).toString());
                     editTextDate.getText().clear();
+                    checkBoxSelect.setChecked(false);
                 }
             }
         });
@@ -117,14 +117,23 @@ public class NewNoteActivity extends AppCompatActivity {
     }
 
     public void setDate() {
-        new DatePickerDialog(NewNoteActivity.this, date,
+        datePickerDialog = new DatePickerDialog(NewNoteActivity.this, date,
                 dateDeadLine.get(Calendar.YEAR),
                 dateDeadLine.get(Calendar.MONTH),
-                dateDeadLine.get(Calendar.DAY_OF_MONTH))
-                .show();
+                dateDeadLine.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.setCancelable(false);
+        datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.dialog_cancel),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        checkBoxSelect.setChecked(false);
+                        datePickerDialog.dismiss();
+                    }
+                });
+        datePickerDialog.show();
     }
 
-    DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+    final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             dateDeadLine.set(Calendar.YEAR, year);
             dateDeadLine.set(Calendar.MONTH, monthOfYear);
@@ -137,7 +146,6 @@ public class NewNoteActivity extends AppCompatActivity {
         editTextDate.setText(DateUtils.formatDateTime(this,
                 dateDeadLine.getTimeInMillis(),
                 DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR));
-        checkBoxSelect.setChecked(true);
     }
 
     @Override
@@ -193,7 +201,6 @@ public class NewNoteActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.share_no, Toast.LENGTH_SHORT).show();
         }
     }
-
 
     private void saveInfoNote() {
         textName = editTextName.getText().toString();

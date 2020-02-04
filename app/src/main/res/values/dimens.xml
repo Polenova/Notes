@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="DP5">5dp</dimen>
-    <dimen name="textPIN24">24sp</dimen>
+    <dimen name="text_inCard">10dp</dimen>
+    <dimen name="size_numberPIN">24sp</dimen>
+    <dimen name="size_text_small">10sp</dimen>
     <dimen name="top_indent">50dp</dimen>
     <dimen name="veiw_indent">16dp</dimen>
     <dimen name="image_float">50dp</dimen>
     <dimen name="multi_text">200dp</dimen>
+    <dimen name="card_margin">10dp</dimen>
+    <dimen name="card_marginTop">5dp</dimen>
+    <dimen name="card_padding">5dp</dimen>
+    <dimen name="button_margin">20dp</dimen>
+    <dimen name="button_marginTop">10dp</dimen>
 </resources>

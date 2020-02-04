@@ -7,16 +7,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
-
 
 
 public class SettingsActivity extends AppCompatActivity {
@@ -35,12 +34,12 @@ public class SettingsActivity extends AppCompatActivity {
 
     private Keystore keystore = App.getKeystore();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         this.setTitle(R.string.title_setting);
+        sharedPrefs = getSharedPreferences(myPrefs, MODE_PRIVATE);
         initView();
     }
 
@@ -55,9 +54,14 @@ public class SettingsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            Intent intent = new Intent(SettingsActivity.this, ListNoteActivity.class);
-            startActivity(intent);
-            return false;
+            if (keystore.hasPin()) {
+                if (!checkOffPin.isChecked() && keystore.checkPin(pinOff)) {
+                    Toast.makeText(SettingsActivity.this, R.string.toast_addPin_offPin, Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(SettingsActivity.this, ListNoteActivity.class);
+                    startActivity(intent);
+                }
+            }
         }
         return true;
     }
@@ -96,10 +100,10 @@ public class SettingsActivity extends AppCompatActivity {
                     switchOffPin();
                 } else {
                     checkOffPin.setChecked(false);
+                    setSharedPreferences();
                 }
             }
         });
-
     }
 
     public void switchOffPin() {
@@ -107,14 +111,19 @@ public class SettingsActivity extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
             final EditText input = new EditText(SettingsActivity.this);
             input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+            input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(4)});
             builder.setTitle(R.string.dialog_OffPin)
                     .setCancelable(false)
                     .setView(input)
                     .setPositiveButton(R.string.dialog_OK, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if (keystore.checkPin(input.getText().toString())) {
+                            String string = input.getText().toString();
+                            String inputString = string.replaceAll("[,]", "").toString();
+                            if (keystore.checkPin(inputString)) {
                                 checkOffPin.setChecked(true);
+                                editNewPin.getText().clear();
+                                editOldPin.getText().clear();
                                 keystore.saveNew(pinOff);
                                 Toast.makeText(SettingsActivity.this, R.string.toast_clear, Toast.LENGTH_SHORT).show();
                             } else {
@@ -140,9 +149,7 @@ public class SettingsActivity extends AppCompatActivity {
         setSharedPreferences();
     }
 
-
     private void setSharedPreferences() {
-        sharedPrefs = getSharedPreferences(myPrefs, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPrefs.edit();
         editor.putBoolean(nameKey, checkOffPin.isChecked()).commit();
     }
@@ -179,11 +186,10 @@ public class SettingsActivity extends AppCompatActivity {
         if (count < 4) {
             Toast.makeText(this, R.string.toast_enter4, Toast.LENGTH_SHORT).show();
         } else {
-            if (!keystore.hasPin()||keystore.checkPin(pinOff)) {
+            if (!keystore.hasPin() || keystore.checkPin(pinOff)) {
                 keystore.saveNew(stringNewPassword);
                 checkOffPin.setChecked(false);
             } else {
-                //equalsPin();
                 String stringInputOldPassword = editOldPin.getText().toString();
                 if ("".equals(stringInputOldPassword)) {
                     Toast.makeText(this, R.string.toast_enter_PIN, Toast.LENGTH_SHORT).show();
@@ -191,6 +197,7 @@ public class SettingsActivity extends AppCompatActivity {
                     Toast.makeText(this, R.string.toast_error_PIN, Toast.LENGTH_SHORT).show();
                 } else {
                     keystore.saveNew(stringNewPassword);
+                    checkOffPin.setChecked(false);
                 }
             }
         }

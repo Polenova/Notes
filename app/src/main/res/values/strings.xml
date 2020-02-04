@@ -1,25 +1,32 @@
 <resources>
     <string name="app_name">NOTES</string>
+    <string name="title_new_note">создать</string>
+    <string name="title_edit_note">редактировать</string>
+    <string name="title_setting">настройки PIN</string>
+    <string name="title_notes">ЗАМЕТКИ</string>
+    <!-- views -->
     <string name="name_note">заголовок</string>
     <string name="text_note">текст</string>
     <string name="date_note">крайняя дата</string>
     <string name="select_date">установить крайний срок</string>
     <string name="ok">OK</string>
     <string name="button_save">сохранить</string>
-    <string name="new_pin">задать PIN:</string>
-    <string name="old_pin">текущий PIN:</string>
-    <string name="dialog_OffPin">Для отключения PIN введите актуальный PIN</string>
+    <string name="new_pin">установить PIN:</string>
+    <string name="old_pin">актуальный PIN:</string>
+    <string name="pin_off">выключить запрос PIN \n и очистить данные</string>
+    <string name="item_save">сохранить</string>
+    <string name="item_clear">очистить</string>
+    <string name="item_share">поделиться</string>
+    <!-- dialogs -->
+    <string name="dialog_OffPin">Для отключения введите актуальный PIN</string>
     <string name="dialog_delete">Удалить заметку?</string>
     <string name="dialog_OK">OK</string>
     <string name="dialog_cancel">отмена</string>
+    <!-- massages -->
     <string name="toast_deadline_no">без крайней даты</string>
-    <string name="toast_clear">данные удалены</string>
+    <string name="toast_clear">сброс данных</string>
     <string name="toast_saved">данные сохранены</string>
     <string name="toast_not_saved">не удалось сохранить данные</string>
-    <string name="title_new_note">создать</string>
-    <string name="title_edit_note">редактировать</string>
-    <string name="title_setting">настройки PIN</string>
-    <string name="title_notes">ЗАМЕТКИ</string>
     <string name="toast_enter4">введите четыре цифры</string>
     <string name="toast_enter_PIN">введите текущий PIN</string>
     <string name="toast_error_PIN">не верно введен PIN</string>
@@ -27,10 +34,17 @@
     <string name="toast_saved_PINOff">запрос PIN выключен</string>
     <string name="toast_not_saved_PIN">ошибка сохранения PIN</string>
     <string name="toast_error_add">нет данных</string>
-    <string name="pin_off">выключить запрос PIN</string>
-    <string name="item_save">сохранить</string>
-    <string name="item_clear">очистить</string>
-    <string name="item_share">поделиться</string>
+    <string name="toast_newPin_add">установите новый PIN</string>
+    <string name="toast_addPin_offPin">установите новый PIN или отключите запрос</string>
     <string name="share_no">нет разрешения на отправку сообщений</string>
-
+    <string name="_1">1</string>
+    <string name="_2">2</string>
+    <string name="_3">3</string>
+    <string name="_4">4</string>
+    <string name="_5">5</string>
+    <string name="_6">6</string>
+    <string name="_7">7</string>
+    <string name="_8">8</string>
+    <string name="_9">9</string>
+    <string name="_0">0</string>
 </resources>

@@ -87,7 +87,18 @@ public class NoteAdapter extends BaseAdapter {
         if ("".equals(textName)) {
             textViewName.setVisibility(View.GONE);
         } else {
+            textViewName.setVisibility(View.VISIBLE);
             textViewName.setText(textName);
+        }
+        if ("".equals(textBody)) {
+            if ("".equals(textName)&&notePosition.getDeadLineDate() == null) {
+                textViewBody.setVisibility(View.VISIBLE);
+            } else {
+                textViewBody.setVisibility(View.GONE);
+            }
+        } else {
+            textViewBody.setVisibility(View.VISIBLE);
+            textViewBody.setText(textBody);
         }
         textViewBody.setText(textBody);
         if (notePosition.getDeadLineDate() == null) {
@@ -96,8 +107,7 @@ public class NoteAdapter extends BaseAdapter {
             textViewDate.setVisibility(View.VISIBLE);
             Date dateNow = new Date();
             if (dateNow.getTime() >= notePosition.getDeadLineDate().getTime()) {
-               int color = textViewDate.getResources().getColor(R.color.colorAccent);
-               textViewDate.setTextColor(color);
+               textViewDate.setTextColor(textViewDate.getResources().getColor(R.color.color_red));
             }
             textViewDate.setText(format.format(notePosition.getDeadLineDate()));
         }

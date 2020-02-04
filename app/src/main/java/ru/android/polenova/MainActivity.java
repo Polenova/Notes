@@ -3,6 +3,7 @@ package ru.android.polenova;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -24,21 +25,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         this.setTitle(R.string.title_notes);
         findOldPIN();
-        Button btnNote = (findViewById(R.id.buttonNote));
-        btnNote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ListNoteActivity.class);
-                startActivity(intent);
-
-            }
-        });
     }
 
     private void findOldPIN() {
-        if (!keystore.hasPin()){
+        if (!keystore.hasPin()) {
             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
         } else {
             if (keystore.checkPin("pinOff")) {
@@ -103,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
 
     private void initView() {
         textViewPIN = findViewById(R.id.textPIN);

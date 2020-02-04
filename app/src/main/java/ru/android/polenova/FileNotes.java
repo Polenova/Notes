@@ -55,12 +55,10 @@ public class FileNotes implements NoteRepository {
         @Override
         public int compare(Note thisNote, Note anotherNote) {
             if (thisNote.getDeadLineDate() != null) {
-                // Если эта заметка имеет дедлайн, а другая нет, то эта заметка выше
                 if (anotherNote.getDeadLineDate() == null) {
                     return -1;
                 }
                 int comparedByDeadLine = thisNote.getDeadLineDate().compareTo(anotherNote.getDeadLineDate());
-                // Если дедлайны не равны, то сравниваем по ним. Иначе по дате последней модификации
                 if (comparedByDeadLine != 0) {
                     return comparedByDeadLine;
                 } else {
@@ -76,7 +74,6 @@ public class FileNotes implements NoteRepository {
             if (thisNote.getDeadLineDate() == null && anotherNote.getDeadLineDate() == null) {
                 return -thisNote.getLastModifiedDate().compareTo(anotherNote.getLastModifiedDate());
             }
-            // Не трогаем. Отсортировано по дедлайну
             return 0;
         }
     };
