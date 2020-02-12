@@ -33,21 +33,28 @@ public class NewNoteActivity extends AppCompatActivity {
 
     private EditText editTextName;
     private MultiAutoCompleteTextView editTextBody;
-    private EditText editTextDate;
+    private EditText editTextDateDays;
+    private EditText editTextDateMonth;
+    private EditText editTextDateYear;
     private CheckBox checkBoxSelect;
 
     private String textName;
     private String textBody;
-    private String textDate;
+    private String textDateDays;
+    private String textDateMonth;
+    private String textDateYear;
     private String deadLineDate;
+    private String deadLineDatePrepare;
     private boolean checkIsChecked;
+    private String[] dateSplit;
+    private Date deadLineDateParse;
 
     private Note getNote;
     private Bundle bundle;
 
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 22;
     private DatePickerDialog datePickerDialog;
-    private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+    private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
     final Calendar dateDeadLine = Calendar.getInstance();
     private NoteRepository noteRepository = App.getNoteRepository();
 
@@ -79,10 +86,17 @@ public class NewNoteActivity extends AppCompatActivity {
             editTextBody.setText(getNote.getTextBodyNote().toString());
             if (getNote.getDeadLineDate() != null) {
                 deadLineDate = format.format(getNote.getDeadLineDate());
+                dateSplit = deadLineDate.split("/");
+                editTextDateDays.setText(dateSplit[0]);
+                editTextDateMonth.setText(dateSplit[1]);
+                editTextDateYear.setText(dateSplit[2]);
             } else {
-                deadLineDate = "";
+                //deadLineDate = "";
+                editTextDateDays.setText("");
+                editTextDateMonth.setText("");
+                editTextDateYear.setText("");
             }
-            editTextDate.setText(deadLineDate);
+            editTextDateDays.setText(deadLineDate);
             checkBoxSelect.setChecked(getNote.isChecked());
         }
     }
@@ -91,18 +105,20 @@ public class NewNoteActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         editTextName = findViewById(R.id.editNameNote);
         editTextBody = findViewById(R.id.multiTextNote);
-        editTextDate = findViewById(R.id.editDeadLine);
+        editTextDateDays = findViewById(R.id.editDeadLineDays);
+        editTextDateMonth = findViewById(R.id.editDeadLineMonth);
+        editTextDateYear = findViewById(R.id.editDeadLineYear);
         checkBoxSelect = findViewById(R.id.checkBoxSelectDeadLine);
         checkBoxSelect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    if ("".equals(editTextDate.getText().toString())) {
-                        setDate();
-                    }
-                } else {
+                if (!isChecked) {
                     Toast.makeText(getApplicationContext(), R.string.toast_deadline_no, Toast.LENGTH_SHORT).show();
-                    editTextDate.setHint(getString(R.string.date_note).toString());
-                    editTextDate.getText().clear();
+                    editTextDateDays.setHint(getString(R.string.date_dd).toString());
+                    editTextDateMonth.setHint(getString(R.string.date_mm).toString());
+                    editTextDateYear.setHint(getString(R.string.date_year).toString());
+                    editTextDateDays.getText().clear();
+                    editTextDateMonth.getText().clear();
+                    editTextDateYear.getText().clear();
                     checkBoxSelect.setChecked(false);
                 }
             }
@@ -126,7 +142,6 @@ public class NewNoteActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        checkBoxSelect.setChecked(false);
                         datePickerDialog.dismiss();
                     }
                 });
@@ -143,9 +158,15 @@ public class NewNoteActivity extends AppCompatActivity {
     };
 
     private void setInitialDate() {
-        editTextDate.setText(DateUtils.formatDateTime(this,
+        deadLineDatePrepare = DateUtils.formatDateTime(this,
                 dateDeadLine.getTimeInMillis(),
-                DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR));
+                DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR);
+        deadLineDatePrepare = deadLineDatePrepare.replace(".", "/");
+        dateSplit = deadLineDatePrepare.split("/");
+        editTextDateDays.setText(dateSplit[0]);
+        editTextDateMonth.setText(dateSplit[1]);
+        editTextDateYear.setText(dateSplit[2]);
+        checkBoxSelect.setChecked(true);
     }
 
     @Override
@@ -158,24 +179,30 @@ public class NewNoteActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_save) {
-            saveInfoNote();
+            prepareInfoForSaving();
             return false;
         } else if (id == R.id.action_clear) {
             Toast.makeText(NewNoteActivity.this, R.string.toast_clear, Toast.LENGTH_LONG).show();
             editTextName.getText().clear();
             editTextBody.getText().clear();
-            editTextDate.getText().clear();
+            editTextDateDays.getText().clear();
+            editTextDateMonth.getText().clear();
+            editTextDateYear.getText().clear();
             checkBoxSelect.setChecked(false);
             return false;
         } else if (id == android.R.id.home) {
-            Intent intent = new Intent(NewNoteActivity.this, ListNoteActivity.class);
-            startActivity(intent);
+            setListActivity();
             return false;
         } else if (id == R.id.action_share) {
             shareText();
             return false;
         }
         return true;
+    }
+
+    private void setListActivity() {
+        Intent intent = new Intent(NewNoteActivity.this, ListNoteActivity.class);
+        startActivity(intent);
     }
 
     private void shareText() {
@@ -203,30 +230,50 @@ public class NewNoteActivity extends AppCompatActivity {
     }
 
     private void saveInfoNote() {
-        textName = editTextName.getText().toString();
-        textBody = editTextBody.getText().toString();
-        textDate = editTextDate.getText().toString();
         checkIsChecked = checkBoxSelect.isChecked();
-        Date deadLineDate;
-        try {
-            deadLineDate = format.parse(textDate);
-        } catch (ParseException e) {
-            deadLineDate = null;
-        }
         Note noteNewInfo;
         if (getNote != null) {
             noteRepository.deleteById(getNote);
-            noteNewInfo = new Note(getNote.getId(), textName, textBody, checkIsChecked, new Date(), deadLineDate);
+            noteNewInfo = new Note(getNote.getId(), textName, textBody, checkIsChecked, new Date(), deadLineDateParse);
         } else {
-            noteNewInfo = NoteFactory.createNote(textName, textBody, checkIsChecked, deadLineDate);
+            noteNewInfo = NoteFactory.createNote(textName, textBody, checkIsChecked, deadLineDateParse);
         }
         try {
             noteRepository.saveNote(noteNewInfo);
             Toast.makeText(this, R.string.toast_saved, Toast.LENGTH_SHORT).show();
+            setListActivity();
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, R.string.toast_not_saved, Toast.LENGTH_SHORT).show();
         }
     }
+
+    private void prepareInfoForSaving() {
+        textName = editTextName.getText().toString();
+        textBody = editTextBody.getText().toString();
+        textDateDays = editTextDateDays.getText().toString();
+        textDateMonth = editTextDateMonth.getText().toString();
+        textDateYear = editTextDateYear.getText().toString();
+        if ("".equals(textDateDays) && "".equals(textDateMonth) && "".equals(textDateYear)) {
+            checkBoxSelect.setChecked(false);
+            deadLineDateParse = null;
+            saveInfoNote();
+        } else if (!"".equals(textDateDays) && !"".equals(textDateMonth) && !"".equals(textDateYear)) {
+            deadLineDatePrepare = textDateDays + "/" + textDateMonth + "/" + textDateYear;
+            try {
+                deadLineDateParse = format.parse(deadLineDatePrepare);
+            } catch (ParseException e) {
+                deadLineDateParse = null;
+            }
+            checkBoxSelect.setChecked(true);
+            saveInfoNote();
+        } else {
+            Toast.makeText(this, "заполните все поля даты", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
+
+
+
+
 

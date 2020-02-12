@@ -126,6 +126,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 editOldPin.getText().clear();
                                 keystore.saveNew(pinOff);
                                 Toast.makeText(SettingsActivity.this, R.string.toast_clear, Toast.LENGTH_SHORT).show();
+                                onRestart();
                             } else {
                                 checkOffPin.setChecked(false);
                                 Toast.makeText(SettingsActivity.this, R.string.toast_error_PIN, Toast.LENGTH_SHORT).show();

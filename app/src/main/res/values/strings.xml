@@ -7,7 +7,19 @@
     <!-- views -->
     <string name="name_note">заголовок</string>
     <string name="text_note">текст</string>
-    <string name="date_note">крайняя дата</string>
+    <string name="_1">1</string>
+    <string name="_2">2</string>
+    <string name="_3">3</string>
+    <string name="_4">4</string>
+    <string name="_5">5</string>
+    <string name="_6">6</string>
+    <string name="_7">7</string>
+    <string name="_8">8</string>
+    <string name="_9">9</string>
+    <string name="_0">0</string>
+    <string name="date_dd">день</string>
+    <string name="date_mm">месяц</string>
+    <string name="date_year">год</string>
     <string name="select_date">установить крайний срок</string>
     <string name="ok">OK</string>
     <string name="button_save">сохранить</string>
@@ -37,14 +49,5 @@
     <string name="toast_newPin_add">установите новый PIN</string>
     <string name="toast_addPin_offPin">установите новый PIN или отключите запрос</string>
     <string name="share_no">нет разрешения на отправку сообщений</string>
-    <string name="_1">1</string>
-    <string name="_2">2</string>
-    <string name="_3">3</string>
-    <string name="_4">4</string>
-    <string name="_5">5</string>
-    <string name="_6">6</string>
-    <string name="_7">7</string>
-    <string name="_8">8</string>
-    <string name="_9">9</string>
-    <string name="_0">0</string>
+    <string name="toast_error_editDate">заполните все поля даты</string>
 </resources>

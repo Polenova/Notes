@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -28,7 +29,11 @@ public class NoteAdapter extends BaseAdapter {
     private String textDateOfCreate;
     private boolean checkIsChecked;
 
-    private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+    private Date dateDeadLineParse;
+    private Date dateNowParse;
+
+    private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+    private SimpleDateFormat format1 = new SimpleDateFormat("ddMMyyyy", Locale.getDefault());
     private NoteRepository noteRepository = App.getNoteRepository();
 
     NoteAdapter(Context context, List<Note> notesList) {
@@ -104,11 +109,22 @@ public class NoteAdapter extends BaseAdapter {
         if (notePosition.getDeadLineDate() == null) {
             textViewDate.setVisibility(View.GONE);
         } else {
-            textViewDate.setVisibility(View.VISIBLE);
-            Date dateNow = new Date();
-            if (dateNow.getTime() >= notePosition.getDeadLineDate().getTime()) {
-               textViewDate.setTextColor(textViewDate.getResources().getColor(R.color.color_red));
+
+            /*Date dateNow = new Date();
+            long date = dateNow.getTime();*/
+            Calendar calendar = Calendar.getInstance();
+            int getCurrentDateTime = Integer.parseInt(format1.format(calendar.getTime()));
+            int parseDeadLineDate = Integer.parseInt(format1.format(notePosition.getDeadLineDate()));
+            if (getCurrentDateTime > parseDeadLineDate) {
+                textViewDate.setTextColor(textViewDate.getResources().getColor(R.color.color_red));
+            } else if (getCurrentDateTime == parseDeadLineDate) {
+                textViewDate.setTextColor(textViewDate.getResources().getColor(R.color.color_yellow));
             }
+            /*if (dateNow.getTime() >= notePosition.getDeadLineDate().getTime()) {
+               int colorRed = textViewDate.getResources().getColor(R.color.color_red);
+               textViewDate.setTextColor(colorRed);
+            }*/
+            textViewDate.setVisibility(View.VISIBLE);
             textViewDate.setText(format.format(notePosition.getDeadLineDate()));
         }
         view.setOnClickListener(new View.OnClickListener() {
