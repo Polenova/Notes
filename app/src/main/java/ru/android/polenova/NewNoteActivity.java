@@ -68,6 +68,12 @@ public class NewNoteActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(NewNoteActivity.this, ListNoteActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
     protected void onRestart() {
         super.onRestart();
         Intent intent = new Intent(NewNoteActivity.this, MainActivity.class);
@@ -91,7 +97,6 @@ public class NewNoteActivity extends AppCompatActivity {
                 editTextDateMonth.setText(dateSplit[1]);
                 editTextDateYear.setText(dateSplit[2]);
             } else {
-                //deadLineDate = "";
                 editTextDateDays.setText("");
                 editTextDateMonth.setText("");
                 editTextDateYear.setText("");
@@ -182,13 +187,10 @@ public class NewNoteActivity extends AppCompatActivity {
             prepareInfoForSaving();
             return false;
         } else if (id == R.id.action_clear) {
-            Toast.makeText(NewNoteActivity.this, R.string.toast_clear, Toast.LENGTH_LONG).show();
             editTextName.getText().clear();
             editTextBody.getText().clear();
-            editTextDateDays.getText().clear();
-            editTextDateMonth.getText().clear();
-            editTextDateYear.getText().clear();
             checkBoxSelect.setChecked(false);
+            Toast.makeText(NewNoteActivity.this, R.string.toast_clear, Toast.LENGTH_LONG).show();
             return false;
         } else if (id == android.R.id.home) {
             setListActivity();
@@ -268,7 +270,7 @@ public class NewNoteActivity extends AppCompatActivity {
             checkBoxSelect.setChecked(true);
             saveInfoNote();
         } else {
-            Toast.makeText(this, "заполните все поля даты", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_error_editDate, Toast.LENGTH_SHORT).show();
         }
     }
 }

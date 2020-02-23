@@ -92,15 +92,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/button_save" />
 
-            <CheckBox
-                android:id="@+id/checkBoxOffPIN"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center|center_horizontal|fill_horizontal|end"
-                android:text="@string/pin_off"
-                android:textColor="@color/color_blue"
-                android:textSize="@dimen/size_text_small" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

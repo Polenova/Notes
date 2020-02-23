@@ -5,6 +5,8 @@
     <string name="title_setting">настройки PIN</string>
     <string name="title_notes">ЗАМЕТКИ</string>
     <!-- views -->
+    <string name="choose_theme">Выбрать новую тему</string>
+    <string name="choose_size_text">Изменить размер текста</string>
     <string name="name_note">заголовок</string>
     <string name="text_note">текст</string>
     <string name="_1">1</string>
@@ -29,9 +31,22 @@
     <string name="item_save">сохранить</string>
     <string name="item_clear">очистить</string>
     <string name="item_share">поделиться</string>
+    <string-array name="theme">
+        <item>Классический</item>
+        <item>Холодный</item>
+        <item>Темный</item>
+        <item>Яркий</item>
+    </string-array>
+    <string-array name="size_text">
+        <item>нормальный</item>
+        <item>большой</item>
+        <item>очень большой</item>
+        <item>маленький</item>
+    </string-array>
     <!-- dialogs -->
     <string name="dialog_OffPin">Для отключения введите актуальный PIN</string>
     <string name="dialog_delete">Удалить заметку?</string>
+    <string name="dialog_info">о программе</string>
     <string name="dialog_OK">OK</string>
     <string name="dialog_cancel">отмена</string>
     <!-- massages -->
@@ -47,7 +62,19 @@
     <string name="toast_not_saved_PIN">ошибка сохранения PIN</string>
     <string name="toast_error_add">нет данных</string>
     <string name="toast_newPin_add">установите новый PIN</string>
-    <string name="toast_addPin_offPin">установите новый PIN или отключите запрос</string>
+    <string name="toast_addPin">установите новый PIN</string>
     <string name="share_no">нет разрешения на отправку сообщений</string>
     <string name="toast_error_editDate">заполните все поля даты</string>
+    <!-- info -->
+    <string name="about_programm">
+         \n  ДОБРО ПОЖАЛОВАТЬ В ПРОГРАММУ ЗАМЕТКИ. \n \n
+        1. Вы можете защитить сохраненную информацию в своих заметках от посторонних глаз при помощи четырехзначного пароля, пароль можно менять перейдя в настройки после нажатия шестиренки.\n
+        2. Пароль можно отключить перейдя в другие настройки, там же можно поменять размер шрифта и тему приложения.\n
+        3. Для создания новой заметки, просто нажмите на копку плюс внизу экрана. Впосле внесения информации не забудьте сохранить данные нажав дискету ввеху эерана, рядом кнопка для сброса всех внесенных данных на экране.\n
+        4. Вы можете устанавливать крайние сроки исполнения запланированных задач, задачи которые истекают сегодня будут подсвечиваться желтым цветом, а которые просрочились красным.\n
+        5. Для того чтоб удалить задачу из списка используйте долгое нажатие на выбранную заметку.\n
+        6. Для редактирования данных используйте одно касание выбранной заметки.
+        7. Вы можете делиться своими записями через сторонние приложения.
+    </string>
+
 </resources>

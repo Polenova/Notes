@@ -2,17 +2,11 @@ package ru.android.polenova;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.InputFilter;
 import android.text.InputType;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -25,11 +19,6 @@ public class SettingsActivity extends AppCompatActivity {
     private ImageButton btnEysNewPin;
     private ImageButton btnEysOldPin;
     private String stringNewPassword;
-    private CheckBox checkOffPin;
-    private SharedPreferences sharedPrefs;
-
-    public static final String myPrefs = "myPrefs";
-    public static final String nameKey = "nameKey";
     private String pinOff = "pinOff";
 
     private Keystore keystore = App.getKeystore();
@@ -39,7 +28,6 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         this.setTitle(R.string.title_setting);
-        sharedPrefs = getSharedPreferences(myPrefs, MODE_PRIVATE);
         initView();
     }
 
@@ -51,12 +39,18 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(SettingsActivity.this, ListNoteActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
             if (keystore.hasPin()) {
-                if (!checkOffPin.isChecked() && keystore.checkPin(pinOff)) {
-                    Toast.makeText(SettingsActivity.this, R.string.toast_addPin_offPin, Toast.LENGTH_SHORT).show();
+                if (keystore.checkPin(pinOff)) {
+                    Toast.makeText(SettingsActivity.this, R.string.toast_addPin, Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(SettingsActivity.this, ListNoteActivity.class);
                     startActivity(intent);
@@ -90,69 +84,6 @@ public class SettingsActivity extends AppCompatActivity {
                 setVisibleTextOldPin();
             }
         });
-        checkOffPin = findViewById(R.id.checkBoxOffPIN);
-        if (sharedPrefs.contains(nameKey)) {
-            checkOffPin.setChecked(sharedPrefs.getBoolean(nameKey, false));
-        }
-        checkOffPin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    switchOffPin();
-                } else {
-                    checkOffPin.setChecked(false);
-                    setSharedPreferences();
-                }
-            }
-        });
-    }
-
-    public void switchOffPin() {
-        if (keystore.hasPin()) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
-            final EditText input = new EditText(SettingsActivity.this);
-            input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
-            input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(4)});
-            builder.setTitle(R.string.dialog_OffPin)
-                    .setCancelable(false)
-                    .setView(input)
-                    .setPositiveButton(R.string.dialog_OK, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            String string = input.getText().toString();
-                            String inputString = string.replaceAll("[,]", "").toString();
-                            if (keystore.checkPin(inputString)) {
-                                checkOffPin.setChecked(true);
-                                editNewPin.getText().clear();
-                                editOldPin.getText().clear();
-                                keystore.saveNew(pinOff);
-                                Toast.makeText(SettingsActivity.this, R.string.toast_clear, Toast.LENGTH_SHORT).show();
-                                onRestart();
-                            } else {
-                                checkOffPin.setChecked(false);
-                                Toast.makeText(SettingsActivity.this, R.string.toast_error_PIN, Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    })
-                    .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                            checkOffPin.setChecked(false);
-                        }
-                    });
-            AlertDialog alert = builder.create();
-            alert.show();
-        } else {
-            checkOffPin.setChecked(true);
-            keystore.saveNew(pinOff);
-            Toast.makeText(SettingsActivity.this, R.string.toast_saved_PINOff, Toast.LENGTH_SHORT).show();
-        }
-        setSharedPreferences();
-    }
-
-    private void setSharedPreferences() {
-        SharedPreferences.Editor editor = sharedPrefs.edit();
-        editor.putBoolean(nameKey, checkOffPin.isChecked()).commit();
     }
 
     private void setVisibleTextOldPin() {
@@ -189,7 +120,7 @@ public class SettingsActivity extends AppCompatActivity {
         } else {
             if (!keystore.hasPin() || keystore.checkPin(pinOff)) {
                 keystore.saveNew(stringNewPassword);
-                checkOffPin.setChecked(false);
+                onBackPressed();
             } else {
                 String stringInputOldPassword = editOldPin.getText().toString();
                 if ("".equals(stringInputOldPassword)) {
@@ -198,7 +129,7 @@ public class SettingsActivity extends AppCompatActivity {
                     Toast.makeText(this, R.string.toast_error_PIN, Toast.LENGTH_SHORT).show();
                 } else {
                     keystore.saveNew(stringNewPassword);
-                    checkOffPin.setChecked(false);
+                    onBackPressed();
                 }
             }
         }

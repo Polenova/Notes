@@ -25,16 +25,16 @@
                 android:id="@+id/editNameNote"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
                 android:hint="@string/name_note"
-                android:inputType="textPersonName"
+                android:inputType="textMultiLine"
                 android:textAlignment="center"
-                android:textAllCaps="true" />
+                android:textSize="@dimen/size_text"
+                android:textStyle="bold" />
 
             <MultiAutoCompleteTextView
                 android:id="@+id/multiTextNote"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/multi_text"
+                android:layout_height="wrap_content"
                 android:hapticFeedbackEnabled="false"
                 android:hint="@string/text_note"
                 android:textAlignment="center"
@@ -67,7 +67,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:ems="10"
                     android:maxLength="2"
                     android:hint="@string/date_dd"
                     android:inputType="number" />
@@ -78,7 +77,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:maxLength="2"
-                    android:ems="10"
                     android:hint="@string/date_mm"
                     android:inputType="number" />
 
@@ -88,7 +86,6 @@
                     android:layout_height="wrap_content"
                     android:maxLength="4"
                     android:layout_weight="1"
-                    android:ems="10"
                     android:hint="@string/date_year"
                     android:inputType="number" />
 

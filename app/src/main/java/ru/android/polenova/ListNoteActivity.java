@@ -2,13 +2,19 @@ package ru.android.polenova;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -29,6 +35,14 @@ public class ListNoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_note);
         this.setTitle(R.string.title_notes);
         initView();
+    }
+
+
+
+
+    @Override
+    public void onBackPressed() {
+            super.finish();
     }
 
     @Override
@@ -80,7 +94,33 @@ public class ListNoteActivity extends AppCompatActivity {
             Intent intent = new Intent(ListNoteActivity.this, SettingsActivity.class);
             startActivity(intent);
             return false;
+        } else if (id == R.id.action_sett_other){
+            Intent intent = new Intent(ListNoteActivity.this, OtherSettingsActivity.class);
+            startActivity(intent);
+            return false;
+        } else if (id == R.id.action_info) {
+            alertDialogInfo();
+            return false;
         }
         return true;
+    }
+
+    private void alertDialogInfo() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ListNoteActivity.this);
+        final EditText info = new EditText(ListNoteActivity.this);
+        info.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        info.setShowSoftInputOnFocus(false);
+        info.setText(R.string.about_programm);
+        builder.setTitle(R.string.dialog_info)
+                .setIcon(R.drawable.ic_perm_device_information_24dp)
+                .setView(info)
+                .setPositiveButton(R.string.dialog_OK, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                      dialog.dismiss();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }

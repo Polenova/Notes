@@ -9,12 +9,43 @@
     </style>
 
     <!-- My theme. -->
-    <style name="GreyTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="ColdTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/color_blue</item>
         <item name="colorPrimaryDark">@color/dark_grey</item>
         <item name="colorAccent">@color/color_blue</item>
         <item name="android:colorBackground">@color/light_grey</item>
+    </style>
+
+    <style name="DarkTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/color_black</item>
+        <item name="colorPrimaryDark">@color/color_black</item>
+        <item name="colorAccent">@color/color_yellow</item>
+        <item name="android:textColor">@color/color_black</item>
+        <item name="android:colorBackground">@color/medium_grey</item>
+    </style>
+
+    <style name="FunTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/color_yellow</item>
+        <item name="colorPrimaryDark">@color/color_yellow</item>
+        <item name="colorAccent">@color/color_red</item>
+        <item name="android:colorBackground">@color/color_white</item>
+    </style>
+
+    <!-- My size. -->
+    <style name="SmallSize" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="NormalSize" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="BigSize" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="LargeSize" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textSize">20sp</item>
     </style>
 
 </resources>

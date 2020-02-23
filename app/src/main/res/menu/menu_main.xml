@@ -10,5 +10,16 @@
         android:title="настройки"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/action_sett_other"
+        android:orderInCategory="100"
+        android:title="другие настройки"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_info"
+        android:orderInCategory="100"
+        android:title="справка"
+        app:showAsAction="never" />
 
 </menu>

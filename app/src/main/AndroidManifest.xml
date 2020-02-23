@@ -2,15 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ru.android.polenova">
 
+    <uses-permission android:name="android.permission.SEND_SMS" />
+
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/icons9"
         android:label="@string/title_notes"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".App"
-        android:theme="@style/GreyTheme">
-        <activity android:name=".SettingsActivity"></activity>
+        android:theme="@style/ColdTheme">
+        <activity android:name=".OtherSettingsActivity"></activity>
+        <activity android:name=".SettingsActivity" />
         <activity android:name=".ListNoteActivity" />
         <activity android:name=".NewNoteActivity" />
         <activity android:name=".MainActivity">
@@ -22,7 +25,4 @@
         </activity>
     </application>
 
-    <uses-permission android:name="android.permission.SEND_SMS" />
-
 </manifest>
-

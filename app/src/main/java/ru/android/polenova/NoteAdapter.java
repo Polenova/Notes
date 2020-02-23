@@ -96,7 +96,7 @@ public class NoteAdapter extends BaseAdapter {
             textViewName.setText(textName);
         }
         if ("".equals(textBody)) {
-            if ("".equals(textName)&&notePosition.getDeadLineDate() == null) {
+            if ("".equals(textName) && notePosition.getDeadLineDate() == null) {
                 textViewBody.setVisibility(View.VISIBLE);
             } else {
                 textViewBody.setVisibility(View.GONE);
@@ -106,24 +106,38 @@ public class NoteAdapter extends BaseAdapter {
             textViewBody.setText(textBody);
         }
         textViewBody.setText(textBody);
+        textViewDate.setTextColor(textViewDate.getResources().getColor(R.color.medium_grey));
         if (notePosition.getDeadLineDate() == null) {
             textViewDate.setVisibility(View.GONE);
         } else {
-
-            /*Date dateNow = new Date();
-            long date = dateNow.getTime();*/
-            Calendar calendar = Calendar.getInstance();
-            int getCurrentDateTime = Integer.parseInt(format1.format(calendar.getTime()));
+            /*Calendar calendar = Calendar.getInstance();
+            long getCurrentDateTime = calendar.getTime().getTime();
+            long getDeadLineDate = notePosition.getDeadLineDate().getTime();
+            int parseCurrentDateTime = Integer.parseInt(format1.format(calendar.getTime()));
             int parseDeadLineDate = Integer.parseInt(format1.format(notePosition.getDeadLineDate()));
+            if (getCurrentDateTime > getDeadLineDate) {
+                textViewDate.setTextColor(textViewDate.getResources().getColor(R.color.color_red));
+                if (parseCurrentDateTime == parseDeadLineDate) {
+                    textViewDate.setTextColor(textViewDate.getResources().getColor(R.color.color_yellow));
+                }
+            }
+            textViewDate.setVisibility(View.VISIBLE);
+            textViewDate.setText(format.format(notePosition.getDeadLineDate()));
+        }*/
+
+            Calendar calendar = Calendar.getInstance();
+            skipHours(calendar);
+            // Текущий день
+            long getCurrentDateTime = calendar.getTimeInMillis();
+            calendar.setTimeInMillis(notePosition.getDeadLineDate().getTime());
+            skipHours(calendar);
+            // День из дедлайна
+            long parseDeadLineDate = calendar.getTimeInMillis();
             if (getCurrentDateTime > parseDeadLineDate) {
                 textViewDate.setTextColor(textViewDate.getResources().getColor(R.color.color_red));
             } else if (getCurrentDateTime == parseDeadLineDate) {
                 textViewDate.setTextColor(textViewDate.getResources().getColor(R.color.color_yellow));
             }
-            /*if (dateNow.getTime() >= notePosition.getDeadLineDate().getTime()) {
-               int colorRed = textViewDate.getResources().getColor(R.color.color_red);
-               textViewDate.setTextColor(colorRed);
-            }*/
             textViewDate.setVisibility(View.VISIBLE);
             textViewDate.setText(format.format(notePosition.getDeadLineDate()));
         }
@@ -169,5 +183,11 @@ public class NoteAdapter extends BaseAdapter {
             }
         });
         return view;
+    }
+    private void skipHours(Calendar calendar) {
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
     }
 }
