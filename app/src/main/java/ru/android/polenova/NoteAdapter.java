@@ -110,21 +110,6 @@ public class NoteAdapter extends BaseAdapter {
         if (notePosition.getDeadLineDate() == null) {
             textViewDate.setVisibility(View.GONE);
         } else {
-            /*Calendar calendar = Calendar.getInstance();
-            long getCurrentDateTime = calendar.getTime().getTime();
-            long getDeadLineDate = notePosition.getDeadLineDate().getTime();
-            int parseCurrentDateTime = Integer.parseInt(format1.format(calendar.getTime()));
-            int parseDeadLineDate = Integer.parseInt(format1.format(notePosition.getDeadLineDate()));
-            if (getCurrentDateTime > getDeadLineDate) {
-                textViewDate.setTextColor(textViewDate.getResources().getColor(R.color.color_red));
-                if (parseCurrentDateTime == parseDeadLineDate) {
-                    textViewDate.setTextColor(textViewDate.getResources().getColor(R.color.color_yellow));
-                }
-            }
-            textViewDate.setVisibility(View.VISIBLE);
-            textViewDate.setText(format.format(notePosition.getDeadLineDate()));
-        }*/
-
             Calendar calendar = Calendar.getInstance();
             skipHours(calendar);
             // Текущий день
@@ -184,6 +169,7 @@ public class NoteAdapter extends BaseAdapter {
         });
         return view;
     }
+
     private void skipHours(Calendar calendar) {
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);

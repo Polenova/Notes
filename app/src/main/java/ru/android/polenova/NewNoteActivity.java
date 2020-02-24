@@ -61,6 +61,7 @@ public class NewNoteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        UtilsSpinner.onActivityCreateSetTheme(NewNoteActivity.this);
         setContentView(R.layout.activity_new_note);
         this.setTitle(R.string.title_new_note);
         initView();

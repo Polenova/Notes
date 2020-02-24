@@ -7,8 +7,8 @@ public class UtilsSpinner {
 
     private static int sTheme;
 
-    public final static int THEME_APP = 0;
-    public final static int THEME_COLD = 1;
+    public final static int THEME_COLD = 0;
+    public final static int THEME_CLASSIC = 1;
     public final static int THEME_DARK = 2;
     public final static int THEME_FUN = 3;
 
@@ -23,17 +23,17 @@ public class UtilsSpinner {
 
     }
 
-    /**
+     /**
      * Set the theme of the activity, according to the configuration.
      */
     public static void onActivityCreateSetTheme(Activity activity) {
         switch (sTheme) {
             default:
             case THEME_COLD:
-                activity.setTheme(R.style.ColdTheme);
-                break;
-            case THEME_APP:
                 activity.setTheme(R.style.AppTheme);
+                break;
+            case THEME_CLASSIC:
+                activity.setTheme(R.style.ClassicTheme);
                 break;
             case THEME_DARK:
                 activity.setTheme(R.style.DarkTheme);

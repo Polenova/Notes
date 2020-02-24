@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -32,12 +33,11 @@ public class OtherSettingsActivity extends AppCompatActivity {
 
     private Switch checkOffPin;
     private Spinner spinnerTheme;
-    private Spinner spinnerSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //UtilsSpinner.onActivityCreateSetTheme(OtherSettingsActivity.this);
+        UtilsSpinner.onActivityCreateSetTheme(OtherSettingsActivity.this);
         setContentView(R.layout.activity_other_settings);
         this.setTitle(R.string.title_setting);
         sharedPrefs = getSharedPreferences(myPrefs, MODE_PRIVATE);
@@ -91,27 +91,18 @@ public class OtherSettingsActivity extends AppCompatActivity {
             }
         });
         spinnerTheme = findViewById(R.id.spinnerTheme);
-        //initSpinnerTheme();
-        spinnerSize = findViewById(R.id.spinnerSize);
-    }
-
-    private void initSpinnerTheme() {
-        ArrayAdapter<CharSequence> adapterTheme = ArrayAdapter.createFromResource(this, R.array.theme, android.R.layout.simple_spinner_item);
-        adapterTheme.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerTheme.setAdapter(adapterTheme);
-        /*AdapterView.OnItemSelectedListener itemSelectedListener = new AdapterView.OnItemSelectedListener() {
+        initSpinnerTheme();
+        Button btnSaveMode = findViewById(R.id.buttonSaveMode);
+        btnSaveMode.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                // Получаем выбранный объект
-                String item = (String)parent.getItemAtPosition(position);
-                switch (item.toString()) {
+            public void onClick(View v) {
+                switch (spinnerTheme.getSelectedItem().toString()) {
                     default:
-                    case "Классический":
-                        UtilsSpinner.changeToTheme(OtherSettingsActivity.this, UtilsSpinner.THEME_APP);
-                        break;
                     case "Холодный":
                         UtilsSpinner.changeToTheme(OtherSettingsActivity.this, UtilsSpinner.THEME_COLD);
+                        break;
+                    case "Классический":
+                        UtilsSpinner.changeToTheme(OtherSettingsActivity.this, UtilsSpinner.THEME_CLASSIC);
                         break;
                     case "Темный":
                         UtilsSpinner.changeToTheme(OtherSettingsActivity.this, UtilsSpinner.THEME_DARK);
@@ -121,13 +112,13 @@ public class OtherSettingsActivity extends AppCompatActivity {
                         break;
                 }
             }
+        });
+    }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        };
-        spinnerTheme.setOnItemSelectedListener(itemSelectedListener);*/
+    private void initSpinnerTheme() {
+        ArrayAdapter<CharSequence> adapterTheme = ArrayAdapter.createFromResource(this, R.array.theme, android.R.layout.simple_spinner_item);
+        adapterTheme.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerTheme.setAdapter(adapterTheme);
     }
 
 

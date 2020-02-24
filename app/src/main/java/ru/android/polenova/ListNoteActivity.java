@@ -6,7 +6,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputFilter;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,7 +13,6 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -32,6 +30,7 @@ public class ListNoteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        UtilsSpinner.onActivityCreateSetTheme(ListNoteActivity.this);
         setContentView(R.layout.activity_list_note);
         this.setTitle(R.string.title_notes);
         initView();
@@ -42,7 +41,7 @@ public class ListNoteActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-            super.finish();
+        super.finish();
     }
 
     @Override

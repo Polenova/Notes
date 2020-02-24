@@ -26,6 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        UtilsSpinner.onActivityCreateSetTheme(SettingsActivity.this);
         setContentView(R.layout.activity_settings);
         this.setTitle(R.string.title_setting);
         initView();
