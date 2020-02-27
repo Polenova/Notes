@@ -26,16 +26,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         this.setTitle(R.string.title_notes);
+        //initView();
         findOldPIN();
     }
 
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(MainActivity.this, ListNoteActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();
-    }
 
     private void findOldPIN() {
         if (!keystore.hasPin()) {

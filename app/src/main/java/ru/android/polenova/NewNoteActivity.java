@@ -68,18 +68,12 @@ public class NewNoteActivity extends AppCompatActivity {
         initBundle();
     }
 
-    @Override
-    public void onBackPressed() {
+    private void setListActivity() {
         Intent intent = new Intent(NewNoteActivity.this, ListNoteActivity.class);
         startActivity(intent);
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Intent intent = new Intent(NewNoteActivity.this, MainActivity.class);
-        startActivity(intent);
-    }
+    // Данные для редактирования ******************
 
     private void initBundle() {
         bundle = getIntent().getExtras();
@@ -106,6 +100,8 @@ public class NewNoteActivity extends AppCompatActivity {
             checkBoxSelect.setChecked(getNote.isChecked());
         }
     }
+
+    // Инициализация кнопок приложения *********************
 
     private void initView() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -138,43 +134,6 @@ public class NewNoteActivity extends AppCompatActivity {
         });
     }
 
-    public void setDate() {
-        datePickerDialog = new DatePickerDialog(NewNoteActivity.this, date,
-                dateDeadLine.get(Calendar.YEAR),
-                dateDeadLine.get(Calendar.MONTH),
-                dateDeadLine.get(Calendar.DAY_OF_MONTH));
-        datePickerDialog.setCancelable(false);
-        datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.dialog_cancel),
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        datePickerDialog.dismiss();
-                    }
-                });
-        datePickerDialog.show();
-    }
-
-    final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            dateDeadLine.set(Calendar.YEAR, year);
-            dateDeadLine.set(Calendar.MONTH, monthOfYear);
-            dateDeadLine.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            setInitialDate();
-        }
-    };
-
-    private void setInitialDate() {
-        deadLineDatePrepare = DateUtils.formatDateTime(this,
-                dateDeadLine.getTimeInMillis(),
-                DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR);
-        deadLineDatePrepare = deadLineDatePrepare.replace(".", "/");
-        dateSplit = deadLineDatePrepare.split("/");
-        editTextDateDays.setText(dateSplit[0]);
-        editTextDateMonth.setText(dateSplit[1]);
-        editTextDateYear.setText(dateSplit[2]);
-        checkBoxSelect.setChecked(true);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_new_note, menu);
@@ -203,11 +162,6 @@ public class NewNoteActivity extends AppCompatActivity {
         return true;
     }
 
-    private void setListActivity() {
-        Intent intent = new Intent(NewNoteActivity.this, ListNoteActivity.class);
-        startActivity(intent);
-    }
-
     private void shareText() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) !=
                 PackageManager.PERMISSION_GRANTED) {
@@ -223,6 +177,8 @@ public class NewNoteActivity extends AppCompatActivity {
         }
     }
 
+    // Запрос разрешений ***************
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -231,6 +187,8 @@ public class NewNoteActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.share_no, Toast.LENGTH_SHORT).show();
         }
     }
+
+    // Сохранение данных *****************
 
     private void saveInfoNote() {
         checkIsChecked = checkBoxSelect.isChecked();
@@ -273,6 +231,45 @@ public class NewNoteActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, R.string.toast_error_editDate, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    // выбор Даты *******************
+
+    public void setDate() {
+        datePickerDialog = new DatePickerDialog(NewNoteActivity.this, date,
+                dateDeadLine.get(Calendar.YEAR),
+                dateDeadLine.get(Calendar.MONTH),
+                dateDeadLine.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.setCancelable(false);
+        datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.dialog_cancel),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        datePickerDialog.dismiss();
+                    }
+                });
+        datePickerDialog.show();
+    }
+
+    final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            dateDeadLine.set(Calendar.YEAR, year);
+            dateDeadLine.set(Calendar.MONTH, monthOfYear);
+            dateDeadLine.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            setInitialDate();
+        }
+    };
+
+    private void setInitialDate() {
+        deadLineDatePrepare = DateUtils.formatDateTime(this,
+                dateDeadLine.getTimeInMillis(),
+                DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR);
+        deadLineDatePrepare = deadLineDatePrepare.replace(".", "/");
+        dateSplit = deadLineDatePrepare.split("/");
+        editTextDateDays.setText(dateSplit[0]);
+        editTextDateMonth.setText(dateSplit[1]);
+        editTextDateYear.setText(dateSplit[2]);
+        checkBoxSelect.setChecked(true);
     }
 }
 

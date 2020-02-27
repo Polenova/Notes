@@ -36,20 +36,7 @@ public class ListNoteActivity extends AppCompatActivity {
         initView();
     }
 
-
-
-
-    @Override
-    public void onBackPressed() {
-        super.finish();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Intent intent = new Intent(ListNoteActivity.this, MainActivity.class);
-        startActivity(intent);
-    }
+    // Показать существующие заметки ***********
 
     private List<Note> getNotesList() {
         try {
@@ -67,6 +54,8 @@ public class ListNoteActivity extends AppCompatActivity {
         }
         return null;
     }
+
+    // Кнопки **********************
 
     private void initView() {
         getNotesList();

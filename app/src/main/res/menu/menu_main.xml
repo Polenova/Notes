@@ -7,19 +7,21 @@
         android:id="@+id/action_sett"
         android:icon="@drawable/ic_settings_24dp"
         android:orderInCategory="100"
-        android:title="настройки"
+        android:title="@string/item_settings"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_sett_other"
+        android:icon="@drawable/ic_build_24dp"
         android:orderInCategory="100"
-        android:title="другие настройки"
-        app:showAsAction="never" />
+        android:title="@string/item_other_settings"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_info"
+        android:icon="@drawable/ic_priority_high_24dp"
         android:orderInCategory="100"
-        android:title="справка"
-        app:showAsAction="never" />
+        android:title="@string/item_about"
+        app:showAsAction="always" />
 
 </menu>

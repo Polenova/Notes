@@ -32,18 +32,7 @@ public class SettingsActivity extends AppCompatActivity {
         initView();
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
-        startActivity(intent);
-    }
-
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(SettingsActivity.this, ListNoteActivity.class);
-        startActivity(intent);
-    }
+    // Кнопки ********
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -53,8 +42,7 @@ public class SettingsActivity extends AppCompatActivity {
                 if (keystore.checkPin(pinOff)) {
                     Toast.makeText(SettingsActivity.this, R.string.toast_addPin, Toast.LENGTH_SHORT).show();
                 } else {
-                    Intent intent = new Intent(SettingsActivity.this, ListNoteActivity.class);
-                    startActivity(intent);
+                    startActivity(new Intent(SettingsActivity.this, ListNoteActivity.class));
                 }
             }
         }
@@ -113,6 +101,8 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    // Сохранение ********
+
     private void savePinFile() {
         stringNewPassword = editNewPin.getText().toString();
         int count = stringNewPassword.length();
@@ -121,7 +111,7 @@ public class SettingsActivity extends AppCompatActivity {
         } else {
             if (!keystore.hasPin() || keystore.checkPin(pinOff)) {
                 keystore.saveNew(stringNewPassword);
-                onBackPressed();
+                startActivity(new Intent(SettingsActivity.this, ListNoteActivity.class));
             } else {
                 String stringInputOldPassword = editOldPin.getText().toString();
                 if ("".equals(stringInputOldPassword)) {

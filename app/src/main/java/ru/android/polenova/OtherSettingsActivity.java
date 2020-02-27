@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -40,21 +41,9 @@ public class OtherSettingsActivity extends AppCompatActivity {
         UtilsSpinner.onActivityCreateSetTheme(OtherSettingsActivity.this);
         setContentView(R.layout.activity_other_settings);
         this.setTitle(R.string.title_setting);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         sharedPrefs = getSharedPreferences(myPrefs, MODE_PRIVATE);
         initView();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Intent intent = new Intent(OtherSettingsActivity.this, MainActivity.class);
-        startActivity(intent);
-    }
-
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(OtherSettingsActivity.this, ListNoteActivity.class);
-        startActivity(intent);
     }
 
     @Override
@@ -121,6 +110,7 @@ public class OtherSettingsActivity extends AppCompatActivity {
         spinnerTheme.setAdapter(adapterTheme);
     }
 
+    // Отключение пинкода и сохранение состояния *********
 
     public void switchOffPin() {
         if (keystore.hasPin()) {

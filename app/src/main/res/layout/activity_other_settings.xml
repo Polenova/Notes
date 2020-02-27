@@ -8,15 +8,12 @@
 
     <Switch
         android:id="@+id/switchPin"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/veiw_indent"
-        android:layout_marginTop="@dimen/veiw_indent"
         android:layout_marginEnd="@dimen/veiw_indent"
-        android:text="@string/pin_off"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewPinOffOn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/textViewPinOffOn" />
 
     <TextView
         android:id="@+id/textViewTheme"
@@ -26,23 +23,34 @@
         android:layout_marginTop="@dimen/veiw_indent"
         android:text="@string/choose_theme"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switchPin" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewPinOffOn" />
 
     <Spinner
         android:id="@+id/spinnerTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/veiw_indent"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewTheme"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTheme" />
+        app:layout_constraintTop_toTopOf="@+id/textViewTheme" />
 
     <Button
         android:id="@+id/buttonSaveMode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="@dimen/veiw_indent"
+        android:layout_marginTop="@dimen/veiw_indent"
         android:text="@string/button_save"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerTheme" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewTheme" />
+
+    <TextView
+        android:id="@+id/textViewPinOffOn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/veiw_indent"
+        android:layout_marginTop="@dimen/veiw_indent"
+        android:text="@string/pin_off"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
