@@ -12,10 +12,8 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -129,7 +127,7 @@ public class OtherSettingsActivity extends AppCompatActivity {
                             if (keystore.checkPin(inputString)) {
                                 checkOffPin.setChecked(true);
                                 keystore.saveNew(pinOff);
-                                Toast.makeText(OtherSettingsActivity.this, R.string.toast_clear, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(OtherSettingsActivity.this, R.string.toast_clear_Pin, Toast.LENGTH_SHORT).show();
                                 onRestart();
                             } else {
                                 input.getText().clear();

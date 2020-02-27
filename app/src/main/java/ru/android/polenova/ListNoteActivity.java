@@ -82,7 +82,7 @@ public class ListNoteActivity extends AppCompatActivity {
             Intent intent = new Intent(ListNoteActivity.this, SettingsActivity.class);
             startActivity(intent);
             return false;
-        } else if (id == R.id.action_sett_other){
+        } else if (id == R.id.action_sett_other) {
             Intent intent = new Intent(ListNoteActivity.this, OtherSettingsActivity.class);
             startActivity(intent);
             return false;
@@ -105,7 +105,7 @@ public class ListNoteActivity extends AppCompatActivity {
                 .setPositiveButton(R.string.dialog_OK, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                      dialog.dismiss();
+                        dialog.dismiss();
                     }
                 });
         AlertDialog alert = builder.create();

@@ -59,7 +59,8 @@
     <!-- massages -->
 
     <string name="toast_deadline_no">без крайней даты</string>
-    <string name="toast_clear">сброс данных</string>
+    <string name="toast_clear_Pin">сброс пароля</string>
+    <string name="toast_clear">очистка полей от данных</string>
     <string name="toast_saved">данные сохранены</string>
     <string name="toast_not_saved">не удалось сохранить данные</string>
     <string name="toast_enter4">введите четыре цифры</string>

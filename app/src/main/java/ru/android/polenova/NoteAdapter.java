@@ -4,17 +4,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -25,15 +22,8 @@ public class NoteAdapter extends BaseAdapter {
     Context myContext;
     private String textName;
     private String textBody;
-    private String deadLineDate;
-    private String textDateOfCreate;
-    private boolean checkIsChecked;
-
-    private Date dateDeadLineParse;
-    private Date dateNowParse;
 
     private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-    private SimpleDateFormat format1 = new SimpleDateFormat("ddMMyyyy", Locale.getDefault());
     private NoteRepository noteRepository = App.getNoteRepository();
 
     NoteAdapter(Context context, List<Note> notesList) {
