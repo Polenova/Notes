@@ -86,16 +86,11 @@ public class NoteAdapter extends BaseAdapter {
             textViewName.setText(textName);
         }
         if ("".equals(textBody)) {
-            if ("".equals(textName) && notePosition.getDeadLineDate() == null) {
-                textViewBody.setVisibility(View.VISIBLE);
-            } else {
-                textViewBody.setVisibility(View.GONE);
-            }
+            textViewBody.setVisibility(View.GONE);
         } else {
             textViewBody.setVisibility(View.VISIBLE);
             textViewBody.setText(textBody);
         }
-        textViewBody.setText(textBody);
         textViewDate.setTextColor(textViewDate.getResources().getColor(R.color.medium_grey));
         if (notePosition.getDeadLineDate() == null) {
             textViewDate.setVisibility(View.GONE);

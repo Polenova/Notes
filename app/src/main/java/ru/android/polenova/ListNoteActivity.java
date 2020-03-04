@@ -6,7 +6,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +43,7 @@ public class ListNoteActivity extends AppCompatActivity {
             notes = noteRepository.getNotes();
         } catch (EmptyStackException e) {
             e.getMessage();
+            Toast.makeText(this, R.string.toast_error_add, Toast.LENGTH_LONG).show();
         }
         if (notes != null) {
             adapter = new NoteAdapter(this, notes);
@@ -50,6 +51,7 @@ public class ListNoteActivity extends AppCompatActivity {
             listView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         } else {
+            alertDialogInfo();
             Toast.makeText(this, R.string.toast_error_add, Toast.LENGTH_LONG).show();
         }
         return null;
@@ -79,12 +81,7 @@ public class ListNoteActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_sett) {
-            Intent intent = new Intent(ListNoteActivity.this, SettingsActivity.class);
-            startActivity(intent);
-            return false;
-        } else if (id == R.id.action_sett_other) {
-            Intent intent = new Intent(ListNoteActivity.this, OtherSettingsActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(ListNoteActivity.this, OtherSettingsActivity.class));
             return false;
         } else if (id == R.id.action_info) {
             alertDialogInfo();
@@ -96,9 +93,9 @@ public class ListNoteActivity extends AppCompatActivity {
     private void alertDialogInfo() {
         AlertDialog.Builder builder = new AlertDialog.Builder(ListNoteActivity.this);
         final EditText info = new EditText(ListNoteActivity.this);
-        info.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         info.setShowSoftInputOnFocus(false);
-        info.setText(R.string.about_programm);
+        info.setGravity(Gravity.CENTER);
+        info.setText(R.string.about_program);
         builder.setTitle(R.string.dialog_info)
                 .setIcon(R.drawable.ic_perm_device_information_24dp)
                 .setView(info)

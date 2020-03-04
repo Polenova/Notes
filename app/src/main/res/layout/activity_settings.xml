@@ -10,6 +10,7 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -25,7 +26,6 @@
                 android:id="@+id/textAskEnterPin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/top_indent"
                 android:layout_marginBottom="@dimen/veiw_indent"
                 android:gravity="center"
                 android:text="@string/new_pin" />
@@ -51,35 +51,6 @@
                     tools:src="@android:drawable/btn_dialog" />
             </LinearLayout>
 
-
-            <TextView
-                android:id="@+id/textAskEnterOldPin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/top_indent"
-                android:layout_marginBottom="@dimen/veiw_indent"
-                android:text="@string/old_pin" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/editTextOldPin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="numberPassword"
-                    android:maxLength="4" />
-
-                <ImageButton
-                    android:id="@+id/buttonEyeOldPin"
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_visibility_off_black_24dp" />
-            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"

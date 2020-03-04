@@ -10,7 +10,7 @@
         android:id="@+id/switchPin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/veiw_indent"
+        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/textViewPinOffOn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textViewPinOffOn" />
@@ -23,34 +23,112 @@
         android:layout_marginTop="@dimen/veiw_indent"
         android:text="@string/choose_theme"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewPinOffOn" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
         android:id="@+id/spinnerTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/veiw_indent"
+        android:spinnerMode="dialog"
         app:layout_constraintBottom_toBottomOf="@+id/textViewTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textViewTheme" />
 
+
     <Button
         android:id="@+id/buttonSaveMode"
-        android:layout_width="wrap_content"
+        style="@android:style/Widget.DeviceDefault.Button.Toggle"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/veiw_indent"
         android:layout_marginTop="@dimen/veiw_indent"
-        android:text="@string/button_save"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTheme" />
+        android:text="@string/save_mode"
+        android:textSize="@dimen/size_text_small"
+        app:layout_constraintEnd_toEndOf="@+id/buttonEyeOldPin"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/editTextOldPin"
+        app:layout_constraintTop_toBottomOf="@+id/editTextOldPin" />
 
     <TextView
         android:id="@+id/textViewPinOffOn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/veiw_indent"
-        android:layout_marginTop="@dimen/veiw_indent"
+        android:layout_marginTop="16dp"
         android:text="@string/pin_off"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewTheme" />
+
+    <TextView
+        android:id="@+id/buttonNewPin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/veiw_indent"
+        android:layout_marginTop="@dimen/veiw_indent"
+        android:text="@string/change_pin"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPinOffOn" />
+
+    <EditText
+        android:id="@+id/editTextNewPin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/veiw_indent"
+        android:layout_marginEnd="@dimen/veiw_indent"
+        android:ems="6"
+        android:hint="@string/pin_new"
+        android:inputType="numberPassword"
+        android:maxLength="4"
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="@+id/buttonEyeNewPin"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewOpen"
+        tools:visibility="visible" />
+
+    <ImageButton
+        android:id="@+id/buttonEyeNewPin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/veiw_indent"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextNewPin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editTextNewPin"
+        app:srcCompat="@drawable/ic_visibility_off_black_24dp"
+        tools:src="@android:drawable/btn_dialog" />
+
+    <EditText
+        android:id="@+id/editTextOldPin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/veiw_indent"
+        android:layout_marginEnd="@dimen/veiw_indent"
+        android:ems="6"
+        android:hint="@string/pin_old"
+        android:inputType="numberPassword"
+        android:maxLength="4"
+        app:layout_constraintEnd_toStartOf="@+id/buttonEyeOldPin"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNewPin" />
+
+    <ImageButton
+        android:id="@+id/buttonEyeOldPin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/veiw_indent"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextOldPin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editTextOldPin"
+        app:srcCompat="@drawable/ic_visibility_off_black_24dp"
+        tools:src="@android:drawable/btn_dialog" />
+
+    <ImageView
+        android:id="@+id/imageViewOpen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonNewPin"
+        app:layout_constraintEnd_toEndOf="@+id/switchPin"
+        app:layout_constraintStart_toStartOf="@+id/switchPin"
+        app:layout_constraintTop_toTopOf="@+id/buttonNewPin"
+        app:srcCompat="@drawable/ic_arrow_down" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

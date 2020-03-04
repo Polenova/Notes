@@ -144,7 +144,11 @@ public class NewNoteActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_save) {
-            prepareInfoForSaving();
+            if (!"".equals(editTextName.getText().toString()) || !"".equals(editTextBody.getText().toString())) {
+                prepareInfoForSaving();
+            } else {
+                Toast.makeText(NewNoteActivity.this, R.string.toast_error_add, Toast.LENGTH_LONG).show();
+            }
             return false;
         } else if (id == R.id.action_clear) {
             editTextName.getText().clear();
@@ -220,16 +224,22 @@ public class NewNoteActivity extends AppCompatActivity {
             deadLineDateParse = null;
             saveInfoNote();
         } else if (!"".equals(textDateDays) && !"".equals(textDateMonth) && !"".equals(textDateYear)) {
-            deadLineDatePrepare = textDateDays + "/" + textDateMonth + "/" + textDateYear;
-            try {
-                deadLineDateParse = format.parse(deadLineDatePrepare);
-            } catch (ParseException e) {
-                deadLineDateParse = null;
+            int parseIntDD = Integer.parseInt(textDateDays);
+            int parseIntMM = Integer.parseInt(textDateMonth);
+            if (parseIntMM > 12 || parseIntDD > 31) {
+                Toast.makeText(this, R.string.toast_error_editDate, Toast.LENGTH_SHORT).show();
+            } else {
+                deadLineDatePrepare = textDateDays + "/" + textDateMonth + "/" + textDateYear;
+                try {
+                    deadLineDateParse = format.parse(deadLineDatePrepare);
+                } catch (ParseException e) {
+                    deadLineDateParse = null;
+                }
+                checkBoxSelect.setChecked(true);
+                saveInfoNote();
             }
-            checkBoxSelect.setChecked(true);
-            saveInfoNote();
         } else {
-            Toast.makeText(this, R.string.toast_error_editDate, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_error_editDateEmpty, Toast.LENGTH_SHORT).show();
         }
     }
 
