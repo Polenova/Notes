@@ -78,7 +78,7 @@
     <string name="toast_addPin">установите новый PIN</string>
     <string name="share_no">нет разрешения на отправку сообщений</string>
     <string name="toast_error_editDateEmpty">заполните все поля даты</string>
-    <string name="toast_error_editDate">не корректно заполнены даты</string>
+    <string name="toast_error_editDate">не корректно введена дата</string>
 
     <!-- info -->
 

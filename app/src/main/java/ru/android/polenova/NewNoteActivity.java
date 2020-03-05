@@ -224,17 +224,16 @@ public class NewNoteActivity extends AppCompatActivity {
             deadLineDateParse = null;
             saveInfoNote();
         } else if (!"".equals(textDateDays) && !"".equals(textDateMonth) && !"".equals(textDateYear)) {
-            int parseIntDD = Integer.parseInt(textDateDays);
-            int parseIntMM = Integer.parseInt(textDateMonth);
-            if (parseIntMM > 12 || parseIntDD > 31) {
+            deadLineDatePrepare = textDateDays + "/" + textDateMonth + "/" + textDateYear;
+            try {
+                deadLineDateParse = format.parse(deadLineDatePrepare);
+
+            } catch (ParseException e) {
+                deadLineDateParse = null;
+            }
+            if (!deadLineDatePrepare.equals(format.format(deadLineDateParse))) {
                 Toast.makeText(this, R.string.toast_error_editDate, Toast.LENGTH_SHORT).show();
             } else {
-                deadLineDatePrepare = textDateDays + "/" + textDateMonth + "/" + textDateYear;
-                try {
-                    deadLineDateParse = format.parse(deadLineDatePrepare);
-                } catch (ParseException e) {
-                    deadLineDateParse = null;
-                }
                 checkBoxSelect.setChecked(true);
                 saveInfoNote();
             }
