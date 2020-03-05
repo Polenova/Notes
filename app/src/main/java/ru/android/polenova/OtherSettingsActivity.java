@@ -2,7 +2,9 @@ package ru.android.polenova;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +14,8 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -131,9 +135,11 @@ public class OtherSettingsActivity extends AppCompatActivity {
         });
     }
 
+    // Развернуть изменение Pin
+
     private void modePinOpenClose() {
         if (editNewPin.getVisibility() == View.GONE) {
-            editNewPin.setVisibility(View.VISIBLE);
+           editNewPin.setVisibility(View.VISIBLE);
             editOldPin.setVisibility(View.VISIBLE);
             btnEysNewPin.setVisibility(View.VISIBLE);
             btnEysOldPin.setVisibility(View.VISIBLE);
@@ -147,11 +153,23 @@ public class OtherSettingsActivity extends AppCompatActivity {
             btnSaveMode.setVisibility(GONE);
             editNewPin.getText().clear();
             editOldPin.getText().clear();
+            hideSoftKeyboard(this);
             btnEysNewPin.setImageResource(R.drawable.ic_visibility_off_black_24dp);
             btnEysOldPin.setImageResource(R.drawable.ic_visibility_off_black_24dp);
             btnChangePin.setImageResource(R.drawable.ic_arrow_down);
         }
     }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        View decorView = activity.getWindow().getDecorView();
+        InputMethodManager manager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (manager != null) {
+            manager.hideSoftInputFromWindow(decorView.getWindowToken(), 0);
+            manager.hideSoftInputFromWindow(decorView.getApplicationWindowToken(), 0);
+        }
+    }
+
+    // Спинер****
 
     private void initThemeOnSave() {
         switch (spinnerTheme.getSelectedItem().toString()) {
@@ -189,6 +207,8 @@ public class OtherSettingsActivity extends AppCompatActivity {
             }
         });
     }
+
+    // Глаз ****
 
     private void setVisibleTextOldPin() {
         int typeNow = editOldPin.getInputType();
