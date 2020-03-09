@@ -10,9 +10,12 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -92,13 +95,17 @@ public class ListNoteActivity extends AppCompatActivity {
 
     private void alertDialogInfo() {
         AlertDialog.Builder builder = new AlertDialog.Builder(ListNoteActivity.this);
-        final EditText info = new EditText(ListNoteActivity.this);
-        info.setShowSoftInputOnFocus(false);
+        final TextView info = new TextView(ListNoteActivity.this);
+        final ScrollView scrollView = new ScrollView(ListNoteActivity.this);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(10,10,10,10);
         info.setGravity(Gravity.CENTER);
+        info.setLayoutParams(params);
         info.setText(R.string.about_program);
+        scrollView.addView(info);
         builder.setTitle(R.string.dialog_info)
                 .setIcon(R.drawable.ic_perm_device_information_24dp)
-                .setView(info)
+                .setView(scrollView)
                 .setPositiveButton(R.string.dialog_OK, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

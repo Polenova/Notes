@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.telephony.SmsManager;
-import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -54,7 +53,7 @@ public class NewNoteActivity extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 22;
     private DatePickerDialog datePickerDialog;
-    private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+    private SimpleDateFormat format = new SimpleDateFormat("d/M/yyyy", Locale.getDefault());
     final Calendar dateDeadLine = Calendar.getInstance();
     private NoteRepository noteRepository = App.getNoteRepository();
 
@@ -96,7 +95,6 @@ public class NewNoteActivity extends AppCompatActivity {
                 editTextDateMonth.setText("");
                 editTextDateYear.setText("");
             }
-            editTextDateDays.setText(deadLineDate);
             checkBoxSelect.setChecked(getNote.isChecked());
         }
     }
@@ -262,24 +260,11 @@ public class NewNoteActivity extends AppCompatActivity {
 
     final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            dateDeadLine.set(Calendar.YEAR, year);
-            dateDeadLine.set(Calendar.MONTH, monthOfYear);
-            dateDeadLine.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            setInitialDate();
+            editTextDateYear.setText(String.valueOf(year));
+            editTextDateMonth.setText(String.valueOf(monthOfYear+1));
+            editTextDateDays.setText(String.valueOf(dayOfMonth));
         }
     };
-
-    private void setInitialDate() {
-        deadLineDatePrepare = DateUtils.formatDateTime(this,
-                dateDeadLine.getTimeInMillis(),
-                DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR);
-        deadLineDatePrepare = deadLineDatePrepare.replace(".", "/");
-        dateSplit = deadLineDatePrepare.split("/");
-        editTextDateDays.setText(dateSplit[0]);
-        editTextDateMonth.setText(dateSplit[1]);
-        editTextDateYear.setText(dateSplit[2]);
-        checkBoxSelect.setChecked(true);
-    }
 }
 
 

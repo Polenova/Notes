@@ -23,7 +23,7 @@ public class NoteAdapter extends BaseAdapter {
     private String textName;
     private String textBody;
 
-    private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+    private SimpleDateFormat format = new SimpleDateFormat("d/M/yyyy", Locale.getDefault());
     private NoteRepository noteRepository = App.getNoteRepository();
 
     NoteAdapter(Context context, List<Note> notesList) {
